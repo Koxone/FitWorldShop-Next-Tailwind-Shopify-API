@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { ChevronLeftIcon, ChevronRightIcon } from '../icons/Icons';
-import MainBanner from '../banners/MainBanner';
 
 const ImagesCarousel = ({
   items = [],
@@ -11,13 +10,11 @@ const ImagesCarousel = ({
   autoPlayInterval = 5000,
   showDots = true,
   showArrows = true,
-  className = '',
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const pathname = usePathname();
 
-  // Auto-play functionality
   useEffect(() => {
     if (!autoPlay || items.length <= 1) return;
 
@@ -45,7 +42,7 @@ const ImagesCarousel = ({
   if (!items.length) return null;
 
   return (
-    <div className={`relative w-full overflow-hidden rounded-lg ${className}`}>
+    <div className="relative w-full overflow-hidden rounded-lg">
       {/* Carousel Content */}
       <div
         className={`flex ${pathname === '/' ? '' : ''} transition-transform duration-500 ease-in-out`}

@@ -14,7 +14,6 @@ export default function Home() {
         autoPlayInterval={5000}
         showDots={true}
         showArrows={true}
-        className="rounded-lg"
       />
       <h1 className="my-4 text-center text-2xl font-bold">Productos</h1>
       <ShopifyProductsList />
