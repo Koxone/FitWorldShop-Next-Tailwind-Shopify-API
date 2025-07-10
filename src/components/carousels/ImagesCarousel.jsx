@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ChevronLeftIcon, ChevronRightIcon } from '../Icons';
 import { usePathname } from 'next/navigation';
+import { ChevronLeftIcon, ChevronRightIcon } from '../icons/Icons';
+import MainBanner from '../banners/MainBanner';
 
 const ImagesCarousel = ({
   items = [],
