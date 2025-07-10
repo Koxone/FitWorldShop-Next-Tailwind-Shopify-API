@@ -16,12 +16,12 @@
 | `compareAtPriceRange.minVariantPrice.amount`     | 💸 Precio tachado mínimo (precio original)          |
 | `compareAtPriceRange.maxVariantPrice.amount`     | 💸 Precio tachado máximo                            |
 | `vendor`                                         | 🏭 Marca (opcional)                                 |
-| `productType`                                    | 🐂️ Tipo de producto (opcional)                     |
+| `productType`                                    | 🐂️ Tipo de producto (opcional)                      |
 | `tags`                                           | 🏷️ Etiquetas (opcional para filtros o badges)       |
 | `createdAt`                                      | 🆕 Badge “New” (si es reciente)                     |
 | `availableForSale`                               | ✅ Disponibilidad para “Agotado” o CTA              |
 | `onlineStoreUrl`                                 | 🔗 Link al producto en Shopify (si lo publicas)     |
-| `category.name`                                  | 🐂️ Categoría (opcional para breadcrumb/filtros)    |
+| `category.name`                                  | 🐂️ Categoría (opcional para breadcrumb/filtros)     |
 
 ---
 
