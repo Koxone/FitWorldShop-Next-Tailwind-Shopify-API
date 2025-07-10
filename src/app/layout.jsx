@@ -1,7 +1,7 @@
 import '@/app/globals.css';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import I18nProvider from '@/components/providers/I18nProvider';
-import PageTransitionWrapper from '@/components/PageTransitionWrapper';
+import PageTransitionWrapper from '@/components/wrappers/PageTransitionWrapper';
 import Header from '@/components/headers/Header';
 import Footer from '@/components/footers/Footer';
 import { GeneralContextProvider } from '@/context/GeneralContext';

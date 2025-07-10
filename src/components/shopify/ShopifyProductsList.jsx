@@ -2,7 +2,7 @@
 
 import useProducts from '@/hooks/useProducts';
 
-export default function ProductGrid() {
+export default function ShopifyProductsList() {
   const { products, isLoading, isError } = useProducts();
 
   if (isLoading)
