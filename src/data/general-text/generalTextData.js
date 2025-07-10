@@ -2,11 +2,12 @@ const generalTextData = {
   header: {
     banner: 'Envios gratis el mismo dia en Ciudad de Mexico sin compra minima',
     buttons: {
-      mujer: 'Mujer',
-      hombre: 'Hombre',
-      accesorios: 'Accesorios',
-      novedades: 'Ver Novedades',
-      ofertas: 'Ver Ofertas',
+      all: 'Todo',
+      women: 'Mujer',
+      men: 'Hombre',
+      accesories: 'Accesorios',
+      new: 'Novedades',
+      sale: 'Ofertas',
     },
   },
   footer: {

@@ -41,16 +41,6 @@ const Header = () => {
             </button>
           </div>
         </div>
-
-        {/* Mobile Navigation */}
-        <div className="lg:hidden">
-          {/* Replace with your MobileMenu component if desired */}
-          <div className="flex flex-col items-center space-y-2 py-4">
-            <button className="text-gray-300 hover:text-white">Home</button>
-            <button className="text-gray-300 hover:text-white">Shop</button>
-            <button className="text-gray-300 hover:text-white">About</button>
-          </div>
-        </div>
       </header>
     </>
   );
