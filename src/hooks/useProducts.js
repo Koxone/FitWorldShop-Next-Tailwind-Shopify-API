@@ -1,12 +1,14 @@
-import useSWR from "swr";
+import useSWR from 'swr';
 
-const fetcher = url => fetch(url).then(res => res.json());
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function useProducts() {
-  const { data, error, isLoading } = useSWR("/api/products", fetcher);
+  const { data, error, isLoading } = useSWR('/api/products', fetcher);
+
+  const products = data?.edges?.map((edge) => edge.node) || [];
 
   return {
-    products: data,
+    products,
     isLoading,
     isError: error,
   };
