@@ -17,7 +17,7 @@ export default function ShopifyProductsList() {
   return (
     <div className="grid grid-cols-2 gap-4 p-4 md:grid-cols-3 lg:grid-cols-4">
       {products.map((product) => (
-        <div key={product.id} className="rounded-lg border p-2">
+        <div key={product.id} className="rounded-lg border border-white p-2">
           <img
             src={product.images.edges[0]?.node.url}
             alt={product.title}
