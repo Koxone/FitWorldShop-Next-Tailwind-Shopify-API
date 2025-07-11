@@ -2,6 +2,7 @@
 
 import MainBanner from '@/components/banners/MainBanner';
 import ImagesCarousel from '@/components/carousels/ImagesCarousel';
+import SectionHeader from '@/components/headers/SectionHeader';
 import ShopifyProductsList from '@/components/shopify/ShopifyProductCard';
 
 export default function Home() {
@@ -19,6 +20,7 @@ export default function Home() {
       </div>
 
       <div className="mb-10 w-full overflow-x-auto px-4 md:max-w-2xl md:px-0 xl:max-w-7xl">
+        <SectionHeader subtitle='SHOP' title='drop #1' />
         <ShopifyProductsList className="flex flex-nowrap gap-4" />
       </div>
     </main>
