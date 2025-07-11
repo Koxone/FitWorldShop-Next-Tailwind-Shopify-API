@@ -7,11 +7,11 @@ import { CloseIcon, MinusIcon, PlusIcon, TrashIcon } from '../icons/Icons';
 const Cart = () => {
   const {
     cartItems,
-    isCartOpen,
-    setIsCartOpen,
     updateQuantity,
     removeItem,
     clearCart,
+    isCartOpen,
+    setIsCartOpen,
   } = usePurchase();
 
   const closeCart = () => setIsCartOpen(false);
@@ -72,7 +72,7 @@ const Cart = () => {
                 className="group flex cursor-pointer gap-4 rounded-lg bg-gray-800 p-3 transition hover:bg-gray-700"
                 onClick={() => {
                   closeCart();
-                  router.push(`/product-detail/${item.id}`);
+                  router.push(`/product-open/${item.handle}`);
                 }}
               >
                 <img
@@ -83,7 +83,7 @@ const Cart = () => {
                 <div className="flex flex-1 flex-col justify-between">
                   <div>
                     <h3 className="text-sm font-semibold text-white">
-                      {item.name}
+                      {item.title}
                     </h3>
                     <p className="mt-0.5 line-clamp-2 text-xs text-gray-400">
                       {item.description}
@@ -166,7 +166,7 @@ const Cart = () => {
               <span className="font-bold">${subtotal.toFixed(2)}</span>
             </div>
             <p className="text-xs text-gray-400">
-              Shipping and taxes calculated at checkout.
+              Envio e Impuestos son calculados al momento de pagar.
             </p>
             <button
               onClick={(e) => {
@@ -175,7 +175,7 @@ const Cart = () => {
               }}
               className="w-full rounded bg-white px-4 py-2 font-semibold text-gray-900 transition hover:bg-gray-200"
             >
-              Proceed to Checkout
+              Pagar
             </button>
             <button
               onClick={(e) => {
@@ -184,7 +184,7 @@ const Cart = () => {
               }}
               className="w-full rounded border border-gray-600 px-4 py-2 text-gray-300 transition hover:border-white hover:text-white"
             >
-              Clear Cart
+              Limpiar Carrito
             </button>
           </div>
         )}

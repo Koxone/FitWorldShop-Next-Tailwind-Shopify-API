@@ -1,4 +1,3 @@
-// src/context/PurchaseContext.jsx
 'use client';
 
 import { createContext, useContext, useState, useEffect } from 'react';
@@ -6,10 +5,10 @@ import { createContext, useContext, useState, useEffect } from 'react';
 const PurchaseContext = createContext();
 
 export function PurchaseProvider({ children }) {
-  const [cartItems, setCartItems] = useState([]); // initialize empty, no localStorage on SSR
+  const [cartItems, setCartItems] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // ✅ Hydrate cart from localStorage safely on client after mount
+  // Hydrate cart from localStorage safely on client after mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const stored = localStorage.getItem('cartItems');
@@ -19,14 +18,14 @@ export function PurchaseProvider({ children }) {
     }
   }, []);
 
-  // ✅ Sync cart to localStorage on every change
+  // Sync cart to localStorage on every change
   useEffect(() => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
     }
   }, [cartItems]);
 
-  // ✅ Add product to cart
+  // Add product to cart
   const addToCart = (product) => {
     setCartItems((prev) => {
       const existingItem = prev.find(
@@ -46,10 +45,24 @@ export function PurchaseProvider({ children }) {
         return [...prev, product];
       }
     });
-    setIsCartOpen(true); // auto-open cart on add
+    setIsCartOpen(true);
+
+    /* Example usage inside a button onClick:
+  onClick={() =>
+    addToCart({
+      id: product.id,
+      title: product.title,
+      selectedSize,
+      selectedColor,
+      quantity: quantity,
+      price: product.price,
+      image: product.image,
+    })
+  }
+*/
   };
 
-  // ✅ Update quantity
+  // Update quantity
   const updateQuantity = (id, selectedSize, selectedColor, newQuantity) => {
     if (newQuantity <= 0) {
       removeItem(id, selectedSize, selectedColor);
@@ -66,7 +79,7 @@ export function PurchaseProvider({ children }) {
     }
   };
 
-  // ✅ Remove item from cart
+  // Remove item from cart
   const removeItem = (id, selectedSize, selectedColor) => {
     setCartItems((prev) =>
       prev.filter(
@@ -80,10 +93,10 @@ export function PurchaseProvider({ children }) {
     );
   };
 
-  // ✅ Clear cart
+  // Clear cart
   const clearCart = () => setCartItems([]);
 
-  // ✅ Toggle cart open/close
+  // Toggle cart open/close
   const toggleCart = () => setIsCartOpen((prev) => !prev);
 
   return (

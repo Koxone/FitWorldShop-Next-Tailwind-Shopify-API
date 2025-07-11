@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import useProducts from '@/hooks/useProducts';
@@ -12,14 +11,23 @@ import {
   ShareIcon,
   StarIcon,
 } from '@/components/icons/Icons';
+import { useShopifyProductContext } from '@/context/ShopifyProductsContext';
+import AddToCartButton from '@/components/buttons/products/AddToCartButton';
 
 export default function OpenProductView() {
-  // State declarations
-  const [quantity, setQuantity] = useState(1);
-  const [selectedSize, setSelectedSize] = useState('');
-  const [isWishlisted, setIsWishlisted] = useState(false);
-  const [productImages, setProductImages] = useState({});
-  const [currentColor, setCurrentColor] = useState();
+  // Shopify Context
+  const {
+    quantity,
+    setQuantity,
+    selectedSize,
+    setSelectedSize,
+    isWishlisted,
+    setIsWishlisted,
+    productImages,
+    setProductImages,
+    currentColor,
+    setCurrentColor,
+  } = useShopifyProductContext();
 
   // Hooks
   const { handle } = useParams();
@@ -33,7 +41,7 @@ export default function OpenProductView() {
       .join('');
   };
 
-  // Event handlers
+  // Quantity Handler
   const handleQuantityChange = (change) => {
     const newQuantity = quantity + change;
     if (newQuantity >= 1 && newQuantity <= 10) {
@@ -116,15 +124,18 @@ export default function OpenProductView() {
 
       {/* Product Info */}
       <div className="animate-slide-in-right max-w-[500px] rounded-lg text-white">
-        <span className="mb-4 inline-block rounded bg-white px-3 py-1 text-xs font-semibold text-gray-900">
-          NEW
-        </span>
-        <h1 className="font-montserrat mb-5 text-3xl font-bold md:text-4xl lg:text-5xl">
-          {product.title}
-        </h1>
+        {/* Badge, Title and Description */}
+        <div>
+          <span className="mb-4 inline-block rounded bg-white px-3 py-1 text-xs font-semibold text-gray-900">
+            NEW
+          </span>
+          <h1 className="font-montserrat mb-5 text-3xl font-bold md:text-4xl lg:text-5xl">
+            {product.title}
+          </h1>
 
-        <div className="font-inter mb-4 max-h-[200px] text-base text-gray-300 md:text-lg">
-          <ExpandableText text={`${product.description}`} />
+          <div className="font-inter mb-4 max-h-[200px] text-base text-gray-300 md:text-lg">
+            <ExpandableText text={`${product.description}`} />
+          </div>
         </div>
 
         {/* Rating */}
@@ -228,9 +239,12 @@ export default function OpenProductView() {
 
         {/* Action Buttons */}
         <div className="mb-8 flex flex-col gap-3 sm:flex-row">
-          <button className="flex-1 cursor-pointer rounded-lg bg-white px-4 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-300 md:text-base">
-            Add to Cart
-          </button>
+          <AddToCartButton
+            product={product}
+            selectedColor={currentColor}
+            selectedSize={selectedSize}
+            quantity={quantity}
+          />
           <button
             onClick={() => setIsWishlisted(!isWishlisted)}
             className={`cursor-pointer rounded-lg border p-3 transition ${
@@ -258,9 +272,7 @@ export default function OpenProductView() {
               </button>
             ))}
           </div>
-          <div className="text-sm text-gray-300">
-            <p>Tab content here.</p>
-          </div>
+          <div className="text-sm text-gray-300">{product.description}</div>
         </div>
       </div>
     </div>

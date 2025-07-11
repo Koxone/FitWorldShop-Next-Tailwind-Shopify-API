@@ -6,6 +6,7 @@ import Header from '@/components/headers/Header';
 import Footer from '@/components/footers/Footer';
 import { GeneralContextProvider } from '@/context/GeneralContext';
 import { PurchaseProvider } from '@/context/PurchaseContext';
+import { ShopifyProductsProvider } from '@/context/ShopifyProductsContext';
 
 export const metadata = {
   title: 'Next.js Template',
@@ -15,18 +16,20 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <GeneralContextProvider>
-      <PurchaseProvider>
-        <html lang="en" className="overflow-x-hidden">
-          <body>
-            <I18nProvider>
-              <Header />
-              <PageTransitionWrapper>{children}</PageTransitionWrapper>
-              <Footer />
-            </I18nProvider>
-            <SpeedInsights />
-          </body>
-        </html>
-      </PurchaseProvider>
+      <ShopifyProductsProvider>
+        <PurchaseProvider>
+          <html lang="en" className="overflow-x-hidden">
+            <body>
+              <I18nProvider>
+                <Header />
+                <PageTransitionWrapper>{children}</PageTransitionWrapper>
+                <Footer />
+              </I18nProvider>
+              <SpeedInsights />
+            </body>
+          </html>
+        </PurchaseProvider>
+      </ShopifyProductsProvider>
     </GeneralContextProvider>
   );
 }
