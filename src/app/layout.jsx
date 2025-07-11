@@ -14,7 +14,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <GeneralContextProvider>
-      <html lang="en">
+      <html lang="en" className="overflow-x-hidden">
         <body>
           <I18nProvider>
             <Header />

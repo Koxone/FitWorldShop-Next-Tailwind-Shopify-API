@@ -1,8 +1,9 @@
 'use client';
 
 import useProducts from '@/hooks/useProducts';
+import Image from 'next/image';
 
-export default function ShopifyProductsList() {
+export default function ShopifyProductsList({ className = '' }) {
   const { products, isLoading, isError } = useProducts();
 
   if (isLoading)
@@ -15,20 +16,23 @@ export default function ShopifyProductsList() {
     );
 
   return (
-    <>
+    <div className={`${className} mx-auto w-full gap-5 px-4 sm:px-0`}>
       {products.map((product) => (
         <div
           key={product.id}
-          className="group hover-lift relative max-w-[300px] overflow-hidden rounded-lg border border-neutral-300/10 bg-gray-800 transition-all duration-300"
+          className="group hover-lift relative max-w-[300px] min-w-[250px] flex-shrink-0 overflow-hidden rounded-lg border border-neutral-300/10 bg-gray-800 transition-all duration-300"
         >
           {/* Imagen del producto */}
           <div className="relative aspect-square w-full overflow-hidden">
-            <img
+            <Image
               src={
                 product.featuredImage?.url || product.images.edges[0]?.node.url
               }
               alt={product.title}
+              width={500}
+              height={500}
               className="w-full cursor-pointer object-cover transition-transform duration-500 group-hover:scale-105"
+              sizes="(max-width: 768px) 100vw, 500px"
             />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
               <button className="focus-ring w-full cursor-pointer rounded bg-white px-4 py-2 font-semibold text-gray-900 transition-colors duration-200 hover:bg-gray-300">
@@ -112,6 +116,6 @@ export default function ShopifyProductsList() {
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 }
