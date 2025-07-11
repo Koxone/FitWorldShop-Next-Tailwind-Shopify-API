@@ -11,16 +11,44 @@ function AddToCartButton({ product, selectedSize, selectedColor, quantity }) {
       return;
     }
 
+    const variant = product.variants.edges.find((variant) =>
+      variant.node.selectedOptions.every((option) => {
+        const optionName = option.name.toLowerCase().trim();
+        const optionValue = option.value.toLowerCase().trim();
+
+        if (optionName === 'color') {
+          return optionValue === selectedColor.toLowerCase().trim();
+        }
+        if (optionName === 'talla') {
+          return optionValue === selectedSize.toLowerCase().trim();
+        }
+        return true; 
+      })
+    );
+
+    if (!variant) {
+      alert(
+        'No se encontró el variant correspondiente con la talla y color seleccionados.'
+      );
+      return;
+    }
+
+    const variantId = variant.node.id;
+
     addToCart({
       id: product.id,
-      title: product.title,
       handle: product.handle,
+      title: product.title,
       description: product.description,
       selectedSize,
       selectedColor,
       quantity,
-      price: product.variants.edges[0].node.price.amount,
-      image: product.featuredImage?.url || product.images.edges[0]?.node.url,
+      price: variant.node.price.amount,
+      image:
+        variant.node.image?.url ||
+        product.featuredImage?.url ||
+        product.images.edges[0]?.node.url,
+      variantId,
     });
   };
 

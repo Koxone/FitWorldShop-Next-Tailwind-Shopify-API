@@ -15,7 +15,22 @@ const Cart = () => {
   } = usePurchase();
 
   const closeCart = () => setIsCartOpen(false);
-  const proceedToCheckout = () => alert('Proceeding to checkout (mock)');
+  const proceedToCheckout = async () => {
+    try {
+      const response = await fetch('/app/api/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cartItems }),
+      });
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch (error) {
+      console.error('Error al iniciar checkout:', error);
+    }
+  };
+
   const router = useRouter();
 
   const subtotal = cartItems.reduce(
