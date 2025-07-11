@@ -17,7 +17,7 @@ export async function GET() {
               url
               altText
             }
-            images(first: 5) {
+            images(first: 20) {
               edges {
                 node {
                   url
@@ -25,7 +25,7 @@ export async function GET() {
                 }
               }
             }
-            variants(first: 5) {
+            variants(first: 100) {
               edges {
                 node {
                   id
