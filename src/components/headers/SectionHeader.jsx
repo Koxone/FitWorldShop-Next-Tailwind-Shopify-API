@@ -1,7 +1,5 @@
 'use client';
 
-import React, { useState } from 'react';
-import useShopifyValue from '@/hooks/useShopifyValue';
 import ShopifyFilter from '../shopify/ShopifyFilter';
 
 function SectionHeader({ title, subtitle }) {
