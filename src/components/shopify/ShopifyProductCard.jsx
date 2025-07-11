@@ -2,6 +2,7 @@
 
 import useProducts from '@/hooks/useProducts';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function ShopifyProductsList({ className = '', genderFilter }) {
@@ -41,6 +42,8 @@ export default function ShopifyProductsList({ className = '', genderFilter }) {
     }
   };
 
+  const router = useRouter();
+
   return (
     <div
       className={`${className} mx-auto flex w-full flex-nowrap gap-5 overflow-x-auto`}
@@ -63,10 +66,14 @@ export default function ShopifyProductsList({ className = '', genderFilter }) {
               height={500}
               className="w-full cursor-pointer object-cover transition-transform duration-500 group-hover:scale-105"
               sizes="(max-width: 768px) 100vw, 500px"
+              onClick={() => router.push(`/product-open/${product.handle}`)}
             />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-              <button className="focus-ring w-full cursor-pointer rounded bg-white px-4 py-2 font-semibold text-gray-900 transition-colors duration-200 hover:bg-gray-300">
-                Quick View
+              <button
+                onClick={() => router.push(`/product-open/${product.handle}`)}
+                className="focus-ring w-full cursor-pointer rounded bg-white px-4 py-2 font-semibold text-gray-900 transition-colors duration-200 hover:bg-gray-300"
+              >
+                Vista Rapida
               </button>
             </div>
           </div>
