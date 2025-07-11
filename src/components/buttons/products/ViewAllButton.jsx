@@ -4,7 +4,7 @@ import React from 'react';
 function ViewAllButton() {
   const router = useRouter();
   const handleClick = () => {
-    router.push('/product-view');
+    router.push('/all-products');
   };
 
   return (
