@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import ShopifyProductCard from '@/components/shopify/ShopifyProductCard';
 
-export default function ShopifyFilter() {
+export default function ShopifyFilter({ className }) {
   const [genderFilter, setGenderFilter] = useState(null);
 
   return (
@@ -43,7 +43,7 @@ export default function ShopifyFilter() {
 
       {/* <ShopifyProductCard genderFilter={genderFilter} /> */}
       <ShopifyProductCard
-        className="flex flex-nowrap gap-4"
+        className={`${className}`}
         genderFilter={genderFilter}
       />
     </main>

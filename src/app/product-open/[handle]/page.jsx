@@ -238,7 +238,7 @@ export default function OpenProductView() {
         </div>
 
         {/* Action Buttons */}
-        <div className="mb-8 flex flex-col gap-3 sm:flex-row">
+        <div className="mb-8 flex gap-3 sm:flex-row md:flex-col">
           <AddToCartButton
             product={product}
             selectedColor={currentColor}
@@ -247,7 +247,7 @@ export default function OpenProductView() {
           />
           <button
             onClick={() => setIsWishlisted(!isWishlisted)}
-            className={`cursor-pointer rounded-lg border p-3 transition ${
+            className={`w-fit cursor-pointer rounded-lg border p-3 transition ${
               isWishlisted
                 ? 'border-red-500 bg-red-500 text-white'
                 : 'border-gray-600 text-gray-300 hover:border-white hover:text-white'
@@ -255,7 +255,7 @@ export default function OpenProductView() {
           >
             <HeartIcon size={18} filled={isWishlisted} />
           </button>
-          <button className="cursor-pointer rounded-lg border border-gray-600 p-3 text-gray-300 transition hover:border-white hover:text-white">
+          <button className="w-fit cursor-pointer rounded-lg border border-gray-600 p-3 text-gray-300 transition hover:border-white hover:text-white">
             <ShareIcon size={18} />
           </button>
         </div>

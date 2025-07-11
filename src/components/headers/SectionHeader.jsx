@@ -2,7 +2,7 @@
 
 import ShopifyFilter from '../shopify/ShopifyFilter';
 
-function SectionHeader({ title, subtitle }) {
+function SectionHeader({ title, subtitle, className }) {
   return (
     <div className="flex flex-col items-start">
       <div className="animate-fade-in text-left">
@@ -16,7 +16,7 @@ function SectionHeader({ title, subtitle }) {
 
       {/* Filters */}
       <div className="animate-slide-in-left w-full">
-        <ShopifyFilter />
+        <ShopifyFilter className={className} />
       </div>
     </div>
   );
