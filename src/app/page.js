@@ -20,8 +20,7 @@ export default function Home() {
       </div>
 
       <div className="mb-10 w-full overflow-x-auto px-4 md:max-w-2xl md:px-0 xl:max-w-7xl">
-        <SectionHeader subtitle='SHOP' title='drop #1' />
-        <ShopifyProductsList className="flex flex-nowrap gap-4" />
+        <SectionHeader subtitle="SHOP" title="drop #1" />
       </div>
     </main>
   );

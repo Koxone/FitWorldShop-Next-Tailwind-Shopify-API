@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import useShopifyValue from '@/hooks/useShopifyValue';
+import ShopifyFilter from '../shopify/ShopifyFilter';
 
 function SectionHeader({ title, subtitle }) {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -19,7 +20,9 @@ function SectionHeader({ title, subtitle }) {
       </div>
 
       {/* Filters */}
-      <div className="animate-slide-in-left w-full"></div>
+      <div className="animate-slide-in-left w-full">
+        <ShopifyFilter />
+      </div>
     </div>
   );
 }
