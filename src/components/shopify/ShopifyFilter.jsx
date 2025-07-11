@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import ShopifyProductsList from '@/components/shopify/ShopifyProductCard';
+import ShopifyProductCard from '@/components/shopify/ShopifyProductCard';
 
 export default function ShopifyFilter() {
   const [genderFilter, setGenderFilter] = useState(null);
@@ -41,8 +41,8 @@ export default function ShopifyFilter() {
         </button>
       </div>
 
-      {/* <ShopifyProductsList genderFilter={genderFilter} /> */}
-      <ShopifyProductsList
+      {/* <ShopifyProductCard genderFilter={genderFilter} /> */}
+      <ShopifyProductCard
         className="flex flex-nowrap gap-4"
         genderFilter={genderFilter}
       />

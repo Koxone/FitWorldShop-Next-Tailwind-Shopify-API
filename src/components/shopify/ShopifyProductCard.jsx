@@ -5,12 +5,16 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function ShopifyProductsList({ className = '', genderFilter }) {
+export default function ShopifyProductCard({ className = '', genderFilter }) {
+  /* ==================== HOOKS ==================== */
   const { products, isLoading, isError } = useProducts();
   const [productImages, setProductImages] = useState({});
+  const router = useRouter();
 
+  /* ==================== LOADING & ERROR STATES ==================== */
   if (isLoading)
     return <div className="p-4 text-center">Cargando productos...</div>;
+  
   if (isError)
     return (
       <div className="p-4 text-center text-red-500">
@@ -18,6 +22,7 @@ export default function ShopifyProductsList({ className = '', genderFilter }) {
       </div>
     );
 
+  /* ==================== PRODUCT FILTERING ==================== */
   const filteredProducts = genderFilter
     ? products.filter((product) =>
         product.variants.edges.some((variant) =>
@@ -28,6 +33,7 @@ export default function ShopifyProductsList({ className = '', genderFilter }) {
       )
     : products;
 
+  /* ==================== EVENT HANDLERS ==================== */
   const handleColorClick = (productId, product, color) => {
     const variant = product.variants.edges.find((variant) =>
       variant.node.selectedOptions.some(
@@ -42,8 +48,7 @@ export default function ShopifyProductsList({ className = '', genderFilter }) {
     }
   };
 
-  const router = useRouter();
-
+  /* ==================== RENDER ==================== */
   return (
     <div
       className={`${className} mx-auto flex w-full flex-nowrap gap-5 overflow-x-auto`}
@@ -53,7 +58,7 @@ export default function ShopifyProductsList({ className = '', genderFilter }) {
           key={product.id}
           className="group hover-lift relative max-w-[300px] min-w-[250px] flex-shrink-0 overflow-hidden rounded-lg border border-neutral-300/10 bg-gray-800 transition-all duration-300"
         >
-          {/* Imagen del producto */}
+          {/* ==================== PRODUCT IMAGE SECTION ==================== */}
           <div className="relative aspect-square w-full overflow-hidden">
             <Image
               src={
@@ -68,6 +73,8 @@ export default function ShopifyProductsList({ className = '', genderFilter }) {
               sizes="(max-width: 768px) 100vw, 500px"
               onClick={() => router.push(`/product-open/${product.handle}`)}
             />
+            
+            {/* Quick View Button Overlay */}
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
               <button
                 onClick={() => router.push(`/product-open/${product.handle}`)}
@@ -78,9 +85,10 @@ export default function ShopifyProductsList({ className = '', genderFilter }) {
             </div>
           </div>
 
-          {/* Detalles del producto */}
+          {/* ==================== PRODUCT DETAILS SECTION ==================== */}
           <div className="flex flex-col gap-1 p-4">
-            {/* Selector de colores */}
+            
+            {/* ==================== COLOR SELECTOR ==================== */}
             {product.options?.find((o) => o.name.toLowerCase() === 'color') && (
               <div className="mt-2 flex gap-1">
                 {product.options
@@ -98,26 +106,29 @@ export default function ShopifyProductsList({ className = '', genderFilter }) {
                   ))}
               </div>
             )}
-            {/* Text Content */}
+
+            {/* ==================== PRODUCT TEXT CONTENT ==================== */}
             <div>
-              {/* Title */}
+              {/* Product Title */}
               <h2 className="font-montserrat mb-1 text-lg font-semibold text-white group-hover:text-gray-300">
                 {product.title}
               </h2>
-              {/* Description */}
+              
+              {/* Product Description */}
               <p className="font-inter mb-2 max-h-20 overflow-y-auto text-sm text-gray-400">
                 {product.description}
               </p>
             </div>
 
-            {/* Price */}
+            {/* ==================== PRICING SECTION ==================== */}
             <div className="flex gap-2">
-              {/* Original */}
+              {/* Current Price */}
               <p className="font-poppins text-lg font-bold text-white">
                 ${product.variants.edges[0].node.price.amount}{' '}
                 {product.variants.edges[0].node.price.currencyCode}
               </p>
-              {/* Discount */}
+              
+              {/* Compare At Price (Discounted) */}
               {product.compareAtPriceRange?.maxVariantPrice?.amount && (
                 <p className="font-poppins text-sm text-gray-500 line-through">
                   ${product.compareAtPriceRange.maxVariantPrice.amount}{' '}
@@ -125,19 +136,23 @@ export default function ShopifyProductsList({ className = '', genderFilter }) {
                 </p>
               )}
             </div>
-            {/* Vendor */}
+
+            {/* ==================== ADDITIONAL PRODUCT INFO ==================== */}
+            {/* Vendor Information */}
             {product.vendor && (
               <p className="mt-1 text-xs text-gray-500">
                 Vendedor: {product.vendor}
               </p>
             )}
-            {/* Categories */}
+            
+            {/* Category Information */}
             {product.category?.name && (
               <p className="text-xs text-gray-500">
                 Categoría: {product.category.name}
               </p>
             )}
-            {/* Sizes */}
+
+            {/* ==================== SIZE SELECTOR ==================== */}
             {product.options?.find((o) => o.name.toLowerCase() === 'talla') && (
               <div className="mt-2 flex flex-wrap justify-start gap-1">
                 {product.options

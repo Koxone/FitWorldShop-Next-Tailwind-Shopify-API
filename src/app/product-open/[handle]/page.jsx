@@ -1,8 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
-import useProducts from '@/hooks/useProducts';
 import Image from 'next/image';
+import useProducts from '@/hooks/useProducts';
+import ExpandableText from '@/components/text/ExpandableText';
 import {
   HeartIcon,
   MinusIcon,
@@ -10,35 +12,34 @@ import {
   ShareIcon,
   StarIcon,
 } from '@/components/icons/Icons';
-import { useState } from 'react';
-import ExpandableText from '@/components/text/ExpandableText';
 
 export default function OpenProductView() {
+  // State declarations
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState('');
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [productImages, setProductImages] = useState({});
   const [currentColor, setCurrentColor] = useState();
 
+  // Hooks
+  const { handle } = useParams();
+  const { products, isLoading, isError } = useProducts();
+
+  // Utility functions
+  const toPascalCase = (str) => {
+    return str
+      ?.split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join('');
+  };
+
+  // Event handlers
   const handleQuantityChange = (change) => {
     const newQuantity = quantity + change;
     if (newQuantity >= 1 && newQuantity <= 10) {
       setQuantity(newQuantity);
     }
   };
-  const { handle } = useParams();
-  const { products, isLoading, isError } = useProducts();
-
-  if (isLoading) return <p className="p-10 text-white">Cargando producto...</p>;
-  if (isError)
-    return <p className="p-10 text-red-500">Error al cargar producto.</p>;
-
-  const product = products.find((p) => p.handle === handle);
-  const sizes =
-    product.options.find((o) => o.name.toLowerCase() === 'talla')?.values || [];
-
-  if (!product)
-    return <p className="p-10 text-white">Producto no encontrado.</p>;
 
   const handleColorClick = (productId, product, color) => {
     const variant = product.variants.edges.find((variant) =>
@@ -54,13 +55,21 @@ export default function OpenProductView() {
     }
   };
 
-  function toPascalCase(str) {
-    return str
-      ?.split(' ')
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join('');
-  }
+  // Loading and error states
+  if (isLoading) return <p className="p-10 text-white">Cargando producto...</p>;
+  if (isError)
+    return <p className="p-10 text-red-500">Error al cargar producto.</p>;
 
+  // Data processing
+  const product = products.find((p) => p.handle === handle);
+
+  if (!product)
+    return <p className="p-10 text-white">Producto no encontrado.</p>;
+
+  const sizes =
+    product.options.find((o) => o.name.toLowerCase() === 'talla')?.values || [];
+
+  // Render
   return (
     <div className="grid w-full max-w-[1200px] grid-cols-1 gap-12 self-center p-8 md:grid-cols-[1fr_1fr] md:p-10">
       {/* Product Images */}
