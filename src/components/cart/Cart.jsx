@@ -17,7 +17,7 @@ const Cart = () => {
   const closeCart = () => setIsCartOpen(false);
   const proceedToCheckout = async () => {
     try {
-      const response = await fetch('/app/api/create-checkout', {
+      const response = await fetch('/api/create-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ cartItems }),
