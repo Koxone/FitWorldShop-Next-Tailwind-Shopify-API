@@ -6,10 +6,12 @@ import generalTextData from '@/data/general-text/generalTextData.js';
 import { ShoppingBagIcon, UserIcon } from '../icons/Icons';
 import Cart from '../cart/Cart';
 import { usePurchase } from '@/context/PurchaseContext';
+import { useRouter } from 'next/navigation';
 
 const Header = () => {
   const buttons = generalTextData.header.buttons;
   const { isCartOpen, setIsCartOpen } = usePurchase();
+  const router = useRouter();
 
   return (
     <>
@@ -31,7 +33,10 @@ const Header = () => {
           </nav>
           {/* Right Icons */}
           <div className="flex items-center justify-end space-x-4">
-            <button className="cursor-pointer p-2 text-gray-300 hover:text-white">
+            <button
+              onClick={() => router.push('/auth/login')}
+              className="cursor-pointer p-2 text-gray-300 hover:text-white"
+            >
               <UserIcon size={20} />
             </button>
             <button
