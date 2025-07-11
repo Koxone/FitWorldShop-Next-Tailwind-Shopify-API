@@ -69,7 +69,7 @@ const Cart = () => {
             cartItems.map((item, idx) => (
               <div
                 key={idx}
-                className="group flex cursor-pointer gap-4 rounded-lg bg-gray-800 p-3 transition hover:bg-gray-700"
+                className="group flex cursor-pointer items-center gap-4 rounded-lg bg-gray-800 p-3 transition hover:bg-gray-700"
                 onClick={() => {
                   closeCart();
                   router.push(`/product-open/${item.handle}`);
@@ -100,6 +100,7 @@ const Cart = () => {
                   </div>
 
                   <div className="mt-2 flex items-center justify-between">
+                    {/* Quantity */}
                     <div className="flex items-center gap-1">
                       <button
                         onClick={(e) => {
@@ -133,10 +134,12 @@ const Cart = () => {
                         <PlusIcon size={16} />
                       </button>
                     </div>
+                    {/* Price */}
                     <div className="flex items-center gap-2">
                       <span className="font-semibold text-white">
                         ${item.price * item.quantity}
                       </span>
+                      {/* Delete Button */}
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -173,18 +176,21 @@ const Cart = () => {
                 e.stopPropagation();
                 proceedToCheckout();
               }}
-              className="w-full rounded bg-white px-4 py-2 font-semibold text-gray-900 transition hover:bg-gray-200"
+              className="group relative w-full cursor-pointer rounded bg-white px-4 py-2 font-semibold text-gray-900 transition hover:text-white"
             >
-              Pagar
+              <span className="relative z-10">Pagar</span>
+              <span className="absolute inset-0 z-0 origin-left scale-x-0 rounded bg-green-500 transition-transform duration-700 ease-out group-hover:scale-x-100"></span>
             </button>
+
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 clearCart();
               }}
-              className="w-full rounded border border-gray-600 px-4 py-2 text-gray-300 transition hover:border-white hover:text-white"
+              className="group relative w-full cursor-pointer rounded border border-gray-600 px-4 py-2 text-gray-300 transition hover:border-white hover:text-white"
             >
-              Limpiar Carrito
+              <span className="relative z-10">Limpiar Carrito</span>
+              <span className="absolute inset-0 z-0 origin-right scale-x-0 rounded bg-red-500 transition-transform duration-700 ease-out group-hover:scale-x-100"></span>
             </button>
           </div>
         )}
