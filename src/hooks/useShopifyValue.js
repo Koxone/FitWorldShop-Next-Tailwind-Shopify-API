@@ -1,4 +1,3 @@
-// src/hooks/useShopifyValue.js
 'use client';
 
 import useProducts from '@/hooks/useProducts';
