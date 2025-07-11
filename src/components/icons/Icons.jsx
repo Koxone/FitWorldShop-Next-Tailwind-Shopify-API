@@ -32,6 +32,17 @@ export const UserIcon = ({ size = 20, className = '' }) => (
   </svg>
 );
 
+export const TrashIcon = ({ size = 16 }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    fill="none"
+  >
+    <path strokeWidth="2" d="M3 6h18M8 6v12m8-12v12M5 6l1 14h12l1-14" />
+  </svg>
+);
 export const ShoppingBagIcon = ({ size = 20, className = '' }) => (
   <svg
     width={size}

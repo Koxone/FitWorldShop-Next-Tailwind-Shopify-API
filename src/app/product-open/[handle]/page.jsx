@@ -77,6 +77,9 @@ export default function OpenProductView() {
         {/* Main Image */}
         <div className="mb-6 aspect-square w-full overflow-hidden rounded-lg bg-gray-800">
           <Image
+            placeholder="blur"
+            blurDataURL="/path/to/lowres.jpg"
+            priority
             src={
               productImages[product.id] ||
               product.featuredImage?.url ||
@@ -97,6 +100,9 @@ export default function OpenProductView() {
               className="aspect-square overflow-hidden rounded-lg border-gray-600 bg-gray-800 transition-all duration-200 hover:border-gray-400 lg:min-w-[190px]"
             >
               <Image
+                placeholder="blur"
+                blurDataURL="/path/to/lowres.jpg"
+                priority
                 src={img.node.url}
                 alt={`${product.title} thumbnail ${index + 1}`}
                 width={200}

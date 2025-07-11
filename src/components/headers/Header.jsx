@@ -4,9 +4,13 @@ import HeaderButton from '../buttons/header/HeaderButton';
 import LogoButton from '../buttons/header/LogoButton';
 import generalTextData from '@/data/general-text/generalTextData.js';
 import { ShoppingBagIcon, UserIcon } from '../icons/Icons';
+import Cart from '../cart/Cart';
+import { usePurchase } from '@/context/PurchaseContext';
 
 const Header = () => {
   const buttons = generalTextData.header.buttons;
+  const { isCartOpen, setIsCartOpen } = usePurchase();
+
   return (
     <>
       {/* Top Banner */}
@@ -41,6 +45,7 @@ const Header = () => {
             </button>
           </div>
         </div>
+        <Cart isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} />
       </header>
     </>
   );

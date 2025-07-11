@@ -61,6 +61,9 @@ export default function ShopifyProductCard({ className = '', genderFilter }) {
           {/*  PRODUCT IMAGE SECTION  */}
           <div className="relative aspect-square w-full overflow-hidden">
             <Image
+              placeholder="blur"
+              blurDataURL="/path/to/lowres.jpg"
+              priority
               src={
                 productImages[product.id] ||
                 product.featuredImage?.url ||
