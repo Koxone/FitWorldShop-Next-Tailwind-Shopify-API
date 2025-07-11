@@ -17,6 +17,8 @@ export default function OpenProductView() {
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState('');
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const [productImages, setProductImages] = useState({});
+  const [currentColor, setCurrentColor] = useState();
 
   const handleQuantityChange = (change) => {
     const newQuantity = quantity + change;
@@ -38,6 +40,27 @@ export default function OpenProductView() {
   if (!product)
     return <p className="p-10 text-white">Producto no encontrado.</p>;
 
+  const handleColorClick = (productId, product, color) => {
+    const variant = product.variants.edges.find((variant) =>
+      variant.node.selectedOptions.some(
+        (opt) => opt.name.toLowerCase() === 'color' && opt.value === color
+      )
+    );
+    if (variant && variant.node.image?.url) {
+      setProductImages((prev) => ({
+        ...prev,
+        [productId]: variant.node.image.url,
+      }));
+    }
+  };
+
+  function toPascalCase(str) {
+    return str
+      ?.split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join('');
+  }
+
   return (
     <div className="grid w-full max-w-[1200px] grid-cols-1 gap-12 self-center p-8 md:grid-cols-[1fr_1fr] md:p-10">
       {/* Product Images */}
@@ -45,7 +68,11 @@ export default function OpenProductView() {
         {/* Main Image */}
         <div className="mb-6 aspect-square w-full overflow-hidden rounded-lg bg-gray-800">
           <Image
-            src={product.images.edges[0].node.url}
+            src={
+              productImages[product.id] ||
+              product.featuredImage?.url ||
+              product.images.edges[0]?.node.url
+            }
             alt={product.title}
             width={800}
             height={800}
@@ -117,23 +144,29 @@ export default function OpenProductView() {
         </div>
 
         {/* Color Selection */}
-        {product.options.find((o) => o.name.toLowerCase() === 'color') && (
-          <div className="mb-6">
-            <h3 className="mb-2 text-sm font-semibold md:text-base">Color</h3>
-            <div className="flex gap-2">
+        <div>
+          <h3 className="mb-2 text-sm font-semibold md:text-base">
+            Color: {currentColor}
+          </h3>
+          {product.options?.find((o) => o.name.toLowerCase() === 'color') && (
+            <div className="mt-2 flex gap-1">
               {product.options
                 .find((o) => o.name.toLowerCase() === 'color')
                 .values.map((color, index) => (
-                  <div
+                  <span
                     key={index}
-                    className="h-10 w-10 rounded-full border-2 border-gray-600"
+                    onClick={() => {
+                      handleColorClick(product.id, product, color);
+                      setCurrentColor(toPascalCase(color));
+                    }}
+                    className="h-10 w-10 cursor-pointer rounded-full border-2 transition duration-200 hover:scale-110"
                     style={{ backgroundColor: color.toLowerCase() }}
                     title={color}
                   />
                 ))}
             </div>
-          </div>
-        )}
+          )}
+        </div>
 
         {/* Size Selection */}
         <div className="mb-6">
