@@ -18,7 +18,7 @@ export default function useShopifyValue(path) {
     });
   }, [products, path, isLoading, isError]);
 
-  return { values, isLoading, isError };
+  return { values: values.flat(), isLoading, isError };
 }
 
 // import useShopifyValue from '@/hooks/useShopifyValue';

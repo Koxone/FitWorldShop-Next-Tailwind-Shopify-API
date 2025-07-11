@@ -31,7 +31,7 @@ export default function ShopifyProductsList({ className = '', genderFilter }) {
     >
       {filteredProducts.map(
         (
-          product // <-- Aquí corregido
+          product 
         ) => (
           <div
             key={product.id}
@@ -42,7 +42,7 @@ export default function ShopifyProductsList({ className = '', genderFilter }) {
               <Image
                 src={
                   product.featuredImage?.url ||
-                  product.images.edges[0]?.node.url
+                  product.images.edges[1]?.node.url
                 }
                 alt={product.title}
                 width={500}
@@ -119,7 +119,7 @@ export default function ShopifyProductsList({ className = '', genderFilter }) {
               {product.options?.find(
                 (o) => o.name.toLowerCase() === 'talla'
               ) && (
-                <div className="mt-2 flex flex-wrap justify-between gap-1">
+                <div className="mt-2 flex flex-wrap justify-start gap-1">
                   {product.options
                     .find((o) => o.name.toLowerCase() === 'talla')
                     .values.map((size, index) => (
