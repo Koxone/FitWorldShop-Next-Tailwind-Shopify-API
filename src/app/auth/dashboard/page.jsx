@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 
 const UserProfile = () => {
   const [activeTab, setActiveTab] = useState('profile');
+  const [userOrders, setUserOrders] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -17,35 +18,49 @@ const UserProfile = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const fetchCustomerData = async () => {
+    const fetchData = async () => {
       const token = localStorage.getItem('accessToken');
       if (!token) {
         router.push('/auth/login');
         return;
       }
       try {
-        const response = await fetch('/api/auth/get-customer', {
+        // Fetch customer profile
+        const profileRes = await fetch('/api/auth/get-customer', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ accessToken: token }),
         });
-        const data = await response.json();
-        if (data.customer) {
+        const profileData = await profileRes.json();
+        if (profileData.customer) {
           setFormData({
-            firstName: data.customer.firstName || '',
-            lastName: data.customer.lastName || '',
-            email: data.customer.email || '',
-            phone: data.customer.phone || '',
+            firstName: profileData.customer.firstName || '',
+            lastName: profileData.customer.lastName || '',
+            email: profileData.customer.email || '',
+            phone: profileData.customer.phone || '',
           });
         } else {
-          console.error(data.error);
+          console.error(profileData.error);
+        }
+
+        // Fetch customer orders
+        const ordersRes = await fetch('/api/auth/get-orders', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ accessToken: token }),
+        });
+        const ordersData = await ordersRes.json();
+        if (ordersData.orders) {
+          setUserOrders(ordersData.orders);
+        } else {
+          console.error(ordersData.error);
         }
       } catch (error) {
-        console.error('Error fetching customer data:', error);
+        console.error('Error fetching data:', error);
       }
     };
 
-    fetchCustomerData();
+    fetchData();
   }, [router]);
 
   const handleInputChange = (e) => {
@@ -62,33 +77,9 @@ const UserProfile = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('accessToken'); // ✅ corregido
-    router.push('/'); // ✅ usar router push limpio
+    localStorage.removeItem('accessToken');
+    router.push('/');
   };
-
-  const orders = [
-    {
-      id: 'ORD-001',
-      date: '2024-01-15',
-      status: 'Delivered',
-      total: 156.0,
-      items: [
-        { name: 'Sandy Bra', quantity: 1, price: 48 },
-        { name: 'Pump Legging', quantity: 1, price: 70 },
-        { name: 'Push Tank', quantity: 1, price: 46 },
-      ],
-    },
-    {
-      id: 'ORD-002',
-      date: '2024-01-10',
-      status: 'Shipped',
-      total: 97.0,
-      items: [
-        { name: 'Alpha Tank', quantity: 1, price: 42 },
-        { name: 'Elite Shorts', quantity: 1, price: 55 },
-      ],
-    },
-  ];
 
   const renderProfileTab = () => (
     <div className="space-y-6">
@@ -173,36 +164,51 @@ const UserProfile = () => {
   const renderOrdersTab = () => (
     <div className="space-y-6">
       <h3 className="text-xl font-bold text-white">Order History</h3>
-      {orders.map((order) => (
-        <div key={order.id} className="rounded bg-gray-800 p-4">
-          <div className="mb-2 flex items-center justify-between">
-            <div>
-              <h4 className="text-lg text-white">Order {order.id}</h4>
-              <p className="text-sm text-gray-400">{order.date}</p>
-            </div>
-            <div className="text-right">
-              <span
-                className={`rounded-full px-2 py-1 text-xs ${
-                  order.status === 'Delivered' ? 'bg-green-700' : 'bg-blue-700'
-                } text-white`}
-              >
-                {order.status}
-              </span>
-              <p className="font-bold text-white">${order.total.toFixed(2)}</p>
-            </div>
-          </div>
-          <ul className="space-y-1 text-sm text-gray-300">
-            {order.items.map((item, idx) => (
-              <li key={idx} className="flex justify-between">
-                <span>
-                  {item.name} x{item.quantity}
+      {userOrders.length === 0 ? (
+        <p className="text-gray-400">You have no orders yet.</p>
+      ) : (
+        userOrders.map((order) => (
+          <div key={order.id} className="rounded bg-gray-800 p-4">
+            <div className="mb-2 flex items-center justify-between">
+              <div>
+                <h4 className="text-lg text-white">
+                  Order #{order.orderNumber}
+                </h4>
+                <p className="text-sm text-gray-400">
+                  {new Date(order.processedAt).toLocaleDateString()}
+                </p>
+              </div>
+              <div className="text-right">
+                <span
+                  className={`rounded-full px-2 py-1 text-xs ${
+                    order.fulfillmentStatus === 'FULFILLED'
+                      ? 'bg-green-700'
+                      : 'bg-blue-700'
+                  } text-white`}
+                >
+                  {order.fulfillmentStatus}
                 </span>
-                <span>${item.price.toFixed(2)}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+                <p className="font-bold text-white">
+                  {order.totalPrice.currencyCode} {order.totalPrice.amount}
+                </p>
+              </div>
+            </div>
+            <ul className="space-y-1 text-sm text-gray-300">
+              {order.lineItems.edges.map((item, idx) => (
+                <li key={idx} className="flex justify-between">
+                  <span>
+                    {item.node.title} x{item.node.quantity}
+                  </span>
+                  <span>
+                    {item.node.originalTotalPrice.currencyCode}{' '}
+                    {item.node.originalTotalPrice.amount}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      )}
     </div>
   );
 

@@ -7,11 +7,20 @@ import { ShoppingBagIcon, UserIcon } from '../icons/Icons';
 import Cart from '../cart/Cart';
 import { usePurchase } from '@/context/PurchaseContext';
 import { useRouter } from 'next/navigation';
+import { useAuthContext } from '@/context/AuthContext';
 
 const Header = () => {
   const buttons = generalTextData.header.buttons;
   const { isCartOpen, setIsCartOpen } = usePurchase();
+  const { isLoggedIn, setIsLoggedIn } = useAuthContext();
   const router = useRouter();
+  const handleClick = () => {
+    if (!isLoggedIn) {
+      router.push('/auth/login');
+    } else {
+      router.push('/auth/dashboard');
+    }
+  };
 
   return (
     <>
@@ -34,7 +43,7 @@ const Header = () => {
           {/* Right Icons */}
           <div className="flex items-center justify-end space-x-4">
             <button
-              onClick={() => router.push('/auth/login')}
+              onClick={() => handleClick()}
               className="cursor-pointer p-2 text-gray-300 hover:text-white"
             >
               <UserIcon size={20} />

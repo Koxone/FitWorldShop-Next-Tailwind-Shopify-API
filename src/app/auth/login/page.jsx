@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuthContext } from '@/context/AuthContext';
 
 const LoginForm = () => {
   const router = useRouter();
+  const { isLoggedIn, setIsLoggedIn } = useAuthContext();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -35,8 +37,11 @@ const LoginForm = () => {
       // Store token
       localStorage.setItem('accessToken', data.accessToken);
 
+      // Login Handler
+      setIsLoggedIn(true);
+
       // Redirect to dashboard or home
-      router.push('/auth/dashboard'); // cambia a '/' si no tienes dashboard
+      router.push('/auth/dashboard');
     } catch (err) {
       console.error(err);
       setError('Something went wrong. Please try again.');
