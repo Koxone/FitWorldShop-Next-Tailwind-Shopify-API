@@ -87,38 +87,43 @@ export default function ShopifyProductsList({ className = '', genderFilter }) {
               </div>
 
               {/* Price */}
-              <div>
-                <p className="text-sm text-gray-300">
+              <div className="flex gap-2">
+                {/* Original */}
+                <p className="font-poppins text-lg font-bold text-white">
                   ${product.variants.edges[0].node.price.amount}{' '}
                   {product.variants.edges[0].node.price.currencyCode}
                 </p>
+                {/* Discount */}
                 {product.compareAtPriceRange?.maxVariantPrice?.amount && (
-                  <p className="text-xs text-gray-400 line-through">
+                  <p className="font-poppins text-sm text-gray-500 line-through">
                     ${product.compareAtPriceRange.maxVariantPrice.amount}{' '}
                     {product.compareAtPriceRange.maxVariantPrice.currencyCode}
                   </p>
                 )}
               </div>
+              {/* Vendor */}
               {product.vendor && (
                 <p className="mt-1 text-xs text-gray-500">
                   Vendedor: {product.vendor}
                 </p>
               )}
+              {/* Categories */}
               {product.category?.name && (
                 <p className="text-xs text-gray-500">
                   Categoría: {product.category.name}
                 </p>
               )}
+              {/* Sizes */}
               {product.options?.find(
                 (o) => o.name.toLowerCase() === 'talla'
               ) && (
-                <div className="mt-2 flex flex-wrap gap-1">
+                <div className="mt-2 flex flex-wrap justify-between gap-1">
                   {product.options
                     .find((o) => o.name.toLowerCase() === 'talla')
                     .values.map((size, index) => (
                       <span
                         key={index}
-                        className="rounded border border-gray-500 px-2 py-0.5 text-xs text-white"
+                        className="rounded border border-gray-500 px-3 py-1.5 text-xs text-white"
                       >
                         {size}
                       </span>
