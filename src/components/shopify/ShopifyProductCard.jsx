@@ -26,7 +26,9 @@ export default function ShopifyProductsList({ className = '', genderFilter }) {
     : products;
 
   return (
-    <div className={`${className} mx-auto w-full gap-5 sm:px-0`}>
+    <div
+      className={`${className} mx-auto flex w-full flex-nowrap gap-5 overflow-x-auto`}
+    >
       {filteredProducts.map(
         (
           product // <-- Aquí corregido

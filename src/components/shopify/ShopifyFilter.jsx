@@ -7,7 +7,7 @@ export default function ShopifyFilter() {
   const [genderFilter, setGenderFilter] = useState(null);
 
   return (
-    <main className="flex flex-col items-center gap-5 p-4">
+    <main className="flex flex-col items-center gap-5">
       <div className="mb-4 flex gap-2 self-start">
         <button
           onClick={() => setGenderFilter(null)}
