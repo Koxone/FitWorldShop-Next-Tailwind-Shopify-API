@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true, // recomendado para detectar errores silenciosos
-  swcMinify: true, // recomendado para builds más rápidos y pequeños
 
   images: {
     domains: ['cdn.shopify.com'],
@@ -10,9 +9,9 @@ const nextConfig = {
   // Para habilitar trazas reales en errores de producción (Vercel o build)
   productionBrowserSourceMaps: true,
 
-  // Si deseas futuras características estables
+  // Si usas server actions en Next.js 15+
   experimental: {
-    serverActions: true, // solo si usas server actions, remueve si no los usas
+    serverActions: {}, // corregido: usa objeto vacío en lugar de boolean
   },
 };
 
