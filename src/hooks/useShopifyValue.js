@@ -11,7 +11,6 @@ export default function useShopifyValue(path) {
     if (isLoading || isError || !products.length) return [];
     return products.map((product) => {
       try {
-        // eslint-disable-next-line no-new-func
         return Function('product', `return product.${path}`)(product);
       } catch (e) {
         console.error(`❌ Error al acceder a ${path}`, e);
