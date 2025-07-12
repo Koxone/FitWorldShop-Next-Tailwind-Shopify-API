@@ -10,8 +10,15 @@ import { useRouter } from 'next/navigation';
 import { useAuthContext } from '@/context/AuthContext';
 
 const Header = () => {
+  const {
+    cartItems,
+    updateQuantity,
+    removeItem,
+    clearCart,
+    isCartOpen,
+    setIsCartOpen,
+  } = usePurchase();
   const buttons = generalTextData.header.buttons;
-  const { isCartOpen, setIsCartOpen } = usePurchase();
   const { isLoggedIn, setIsLoggedIn } = useAuthContext();
   const router = useRouter();
   const handleClick = () => {
@@ -54,7 +61,7 @@ const Header = () => {
             >
               <ShoppingBagIcon size={20} />
               <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-white text-xs font-semibold text-gray-900">
-                0
+                {cartItems.length}
               </span>
             </button>
           </div>

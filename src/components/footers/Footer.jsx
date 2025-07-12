@@ -1,5 +1,7 @@
 'use client';
 
+import LogoButton from '../buttons/header/LogoButton';
+
 const Footer = () => {
   return (
     <footer className="border-t border-gray-700 bg-gray-800">
@@ -9,7 +11,7 @@ const Footer = () => {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
             {/* Company Info */}
             <div className="space-y-4">
-              <div className="text-lg font-bold text-white">LOGO</div>
+              <LogoButton />
               <p className="text-sm text-gray-400">
                 Ropa deportiva premium diseñada para quienes exigen excelencia
                 en cada aspecto de su viaje fitness.
@@ -19,12 +21,22 @@ const Footer = () => {
                 {['instagram', 'tiktok', 'whatsapp'].map((platform, idx) => (
                   <a
                     key={idx}
-                    href="#"
+                    href={
+                      platform === 'instagram'
+                        ? 'https://www.instagram.com/fitworldshop/'
+                        : platform === 'tiktok'
+                          ? 'https://www.tiktok.com/@fitworldshop1'
+                          : 'https://wa.me/5215582525125'
+                    }
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex h-12 w-12 items-center justify-center transition-opacity duration-200 hover:opacity-80"
+                    className="flex h-12 w-12 items-center justify-center transition-colors duration-200 hover:opacity-80"
                   >
-                    <div className="h-6 w-6 rounded-full bg-gray-500" />
+                    <img
+                      src={`/${platform}.svg`}
+                      alt={platform}
+                      className="h-full w-full object-contain"
+                    />
                   </a>
                 ))}
               </div>
