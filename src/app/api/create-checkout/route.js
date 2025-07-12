@@ -5,7 +5,7 @@ export async function POST(req) {
 
   const lines = cartItems.map((item) => ({
     quantity: item.quantity,
-    merchandiseId: item.variantId, // asegúrate de tener este campo en el carrito
+    merchandiseId: item.variantId,
   }));
 
   const query = `
@@ -30,18 +30,21 @@ export async function POST(req) {
   };
 
   try {
-    const response = await fetch(process.env.SHOPIFY_STOREFRONT_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Shopify-Storefront-Access-Token':
-          process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN,
-      },
-      body: JSON.stringify({ query, variables }),
-    });
+    const response = await fetch(
+      `https://${process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN}/api/2023-10/graphql.json`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Storefront-Access-Token':
+            process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+        },
+        body: JSON.stringify({ query, variables }),
+      }
+    );
 
     const json = await response.json();
-    console.log(JSON.stringify(json, null, 2)); // Para debug en consola
+    console.log(JSON.stringify(json, null, 2));
 
     const { cart, userErrors } = json.data.cartCreate;
 
