@@ -55,7 +55,7 @@ function PromoSectionContainer({ title, subtitle, type }) {
       </div>
 
       {/* Horizontal Scroll Container */}
-      <div className="flex w-full snap-x snap-mandatory justify-between gap-4 overflow-x-auto px-5 pb-4 md:px-0">
+      <div className="flex w-full snap-x snap-mandatory justify-between gap-4 overflow-x-auto pb-4 md:px-0">
         {shopData[type]?.map((section, idx) => (
           <div
             key={idx}
