@@ -4,87 +4,90 @@ export async function GET() {
     process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
 
   const query = `
-    {
-      products(first: 100) {
-        edges {
-          node {
-            id
-            title
-            handle
-            description
-            featuredImage {
-              id
+{
+  products(first: 100) {
+    edges {
+      node {
+        id
+        title
+        handle
+        description
+        featuredImage {
+          id
+          url
+          altText
+        }
+        images(first: 20) {
+          edges {
+            node {
               url
               altText
             }
-            images(first: 20) {
-              edges {
-                node {
-                  url
-                  altText
-                }
-              }
-            }
-            variants(first: 100) {
-              edges {
-                node {
-                  id
-                  title
-                  price {
-                    amount
-                    currencyCode
-                  }
-                  compareAtPrice {
-                    amount
-                    currencyCode
-                  }
-                  selectedOptions {
-                    name
-                    value
-                  }
-                  image {
-                    url
-                    altText
-                  }
-                }
-              }
-            }
-            options {
+          }
+        }
+        variants(first: 100) {
+          edges {
+            node {
               id
-              name
-              values
-            }
-            vendor
-            tags
-            category {
-              id
-              name
-            }
-            priceRange {
-              minVariantPrice {
+              title
+              price {
                 amount
                 currencyCode
               }
-              maxVariantPrice {
+              compareAtPrice {
                 amount
                 currencyCode
               }
-            }
-            compareAtPriceRange {
-              minVariantPrice {
-                amount
-                currencyCode
+              selectedOptions {
+                name
+                value
               }
-              maxVariantPrice {
-                amount
-                currencyCode
+              image {
+                url
+                altText
               }
             }
           }
         }
+        options {
+          id
+          name
+          values
+        }
+        vendor
+        tags
+        category {
+          id
+          name
+        }
+        metafield(namespace: "custom", key: "feature") {
+          value
+        }
+        priceRange {
+          minVariantPrice {
+            amount
+            currencyCode
+          }
+          maxVariantPrice {
+            amount
+            currencyCode
+          }
+        }
+        compareAtPriceRange {
+          minVariantPrice {
+            amount
+            currencyCode
+          }
+          maxVariantPrice {
+            amount
+            currencyCode
+          }
+        }
       }
     }
-  `;
+  }
+}
+`;
 
   try {
     const response = await fetch(`https://${domain}/api/2023-10/graphql.json`, {

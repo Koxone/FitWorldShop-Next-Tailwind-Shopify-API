@@ -13,8 +13,11 @@ import {
 } from '@/components/icons/Icons';
 import { useShopifyProductContext } from '@/context/ShopifyProductsContext';
 import AddToCartButton from '@/components/buttons/products/AddToCartButton';
+import { useState } from 'react';
 
 export default function OpenProductView() {
+  const [currentTab, setCurrentTab] = useState('Description');
+
   // Shopify Context
   const {
     quantity,
@@ -77,7 +80,6 @@ export default function OpenProductView() {
   const sizes =
     product.options.find((o) => o.name.toLowerCase() === 'talla')?.values || [];
 
-  // Render
   return (
     <div className="grid w-full max-w-[1200px] grid-cols-1 gap-12 self-center p-8 md:grid-cols-[1fr_1fr] md:p-10">
       {/* Product Images */}
@@ -238,7 +240,7 @@ export default function OpenProductView() {
         </div>
 
         {/* Action Buttons */}
-        <div className="mb-8 flex gap-3 sm:flex-row md:flex-col">
+        <div className="mb-8 flex gap-3">
           <AddToCartButton
             product={product}
             selectedColor={currentColor}
@@ -265,6 +267,7 @@ export default function OpenProductView() {
           <div className="mb-4 flex gap-4">
             {['Description', 'Features', 'Care'].map((tab) => (
               <button
+                onClick={() => setCurrentTab(tab)}
                 key={tab}
                 className="cursor-pointer text-sm font-medium text-gray-400 capitalize transition hover:text-white"
               >
@@ -272,7 +275,17 @@ export default function OpenProductView() {
               </button>
             ))}
           </div>
-          <div className="text-sm text-gray-300">{product.description}</div>
+          <div className="text-sm text-gray-300">
+            <ExpandableText
+              text={
+                currentTab === 'Description'
+                  ? product.description
+                  : currentTab === 'Features'
+                    ? product.metafield?.value || 'No features available.'
+                    : 'Care instructions here.'
+              }
+            />
+          </div>
         </div>
       </div>
     </div>
