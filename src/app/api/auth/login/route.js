@@ -29,6 +29,8 @@ export async function POST(req) {
     const variables = {
       input: { email, password },
     };
+    console.log('ENV DOMAIN:', process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN);
+    console.log('ENV TOKEN:', process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN);
 
     const response = await fetch(
       `https://${process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN}/api/2023-10/graphql.json`,
