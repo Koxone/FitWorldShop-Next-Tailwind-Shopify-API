@@ -34,3 +34,35 @@ body {
 *::-webkit-scrollbar-corner {
   background: transparent;
 }
+
+@keyframes scroll-x {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll-x {
+  animation: scroll-x 15s linear infinite;
+}
+
+/* Shopify Products Card Animation */
+@keyframes shopify-scroll-x {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.shopify-scroll-x {
+  animation: shopify-scroll-x 50s linear infinite;
+  will-change: transform;
+}
+
+.shopify-scroll-x:hover {
+  animation-play-state: paused;
+}

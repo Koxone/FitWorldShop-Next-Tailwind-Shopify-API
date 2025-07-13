@@ -2,17 +2,19 @@
 
 import { useState } from 'react';
 import ShopifyProductCard from '@/components/shopify/ShopifyProductCard';
+import { useFilterContext } from '@/context/FilterContext';
+import useFilteredProductsByCategory from '@/hooks/useProductCategorieFilter';
 
 export default function ShopifyFilter({ className }) {
-  const [genderFilter, setGenderFilter] = useState(null);
+  const { categorieFilter, setCategorieFilter, categories } = useFilterContext();
 
   return (
     <main className="flex flex-col items-center gap-5">
       <div className="mb-4 flex gap-2 self-start">
         <button
-          onClick={() => setGenderFilter(null)}
+          onClick={() => setCategorieFilter(null)}
           className={`font-poppins cursor-pointer rounded-md px-2 py-2 font-medium transition-all duration-200 md:px-6 ${
-            genderFilter === null
+            categorieFilter === null
               ? 'bg-white text-gray-900'
               : 'border text-gray-300 hover:bg-gray-700 hover:text-white'
           }`}
@@ -20,9 +22,9 @@ export default function ShopifyFilter({ className }) {
           TODOS
         </button>
         <button
-          onClick={() => setGenderFilter('Masculino')}
+          onClick={() => setCategorieFilter('Masculino')}
           className={`font-poppins cursor-pointer rounded-md px-1 py-2 font-medium transition-all duration-200 md:px-6 ${
-            genderFilter === 'Masculino'
+            categorieFilter === 'Masculino'
               ? 'bg-white text-gray-900'
               : 'border text-gray-300 hover:bg-gray-700 hover:text-white'
           }`}
@@ -30,9 +32,9 @@ export default function ShopifyFilter({ className }) {
           HOMBRES
         </button>
         <button
-          onClick={() => setGenderFilter('Femenino')}
+          onClick={() => setCategorieFilter('Femenino')}
           className={`font-poppins cursor-pointer rounded-md px-1 py-2 font-medium transition-all duration-200 md:px-6 ${
-            genderFilter === 'Femenino'
+            categorieFilter === 'Femenino'
               ? 'bg-white text-gray-900'
               : 'border text-gray-300 hover:bg-gray-700 hover:text-white'
           }`}
@@ -41,10 +43,10 @@ export default function ShopifyFilter({ className }) {
         </button>
       </div>
 
-      {/* <ShopifyProductCard genderFilter={genderFilter} /> */}
+      {/* <ShopifyProductCard categorieFilter={categorieFilter} /> */}
       <ShopifyProductCard
         className={`${className}`}
-        genderFilter={genderFilter}
+        categorieFilter={categorieFilter}
       />
     </main>
   );

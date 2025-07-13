@@ -17,6 +17,7 @@ import { useState } from 'react';
 import SectionHeader from '@/components/headers/SectionHeader';
 import ViewAllButton from '@/components/buttons/products/ViewAllButton';
 import PromoSectionContainer from '@/components/containers/PromoSectionContainer';
+import ProductCarousel from '@/components/carousels/ProductCarousel';
 
 export default function OpenProductView() {
   const [currentTab, setCurrentTab] = useState('Description');
@@ -309,6 +310,7 @@ export default function OpenProductView() {
           type="categories"
         />
       </div>
+      <ProductCarousel />
     </div>
   );
 }

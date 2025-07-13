@@ -10,15 +10,10 @@ import { useRouter } from 'next/navigation';
 import { useAuthContext } from '@/context/AuthContext';
 
 const Header = () => {
-  const {
-    cartItems,
-    updateQuantity,
-    removeItem,
-    clearCart,
-    isCartOpen,
-    setIsCartOpen,
-  } = usePurchase();
+  const { cartItems, isCartOpen, setIsCartOpen } = usePurchase();
   const buttons = generalTextData.header.buttons;
+
+  // User Section Handler
   const { isLoggedIn, setIsLoggedIn } = useAuthContext();
   const router = useRouter();
   const handleClick = () => {
