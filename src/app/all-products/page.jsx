@@ -1,6 +1,7 @@
 'use client';
 
 import SectionHeader from '@/components/headers/SectionHeader';
+import SideBarMenu from '@/components/nav/SideBarMenu';
 
 export default function ProductsView() {
   return (
@@ -9,7 +10,7 @@ export default function ProductsView() {
       <div className="hidden md:block">
         {/* Aquí puedes colocar el componente FiltersSidebar */}
         <div className="rounded-lg bg-gray-800 p-4">
-          <p className="text-gray-400">Filters Sidebar Placeholder</p>
+          <SideBarMenu />
         </div>
       </div>
 
