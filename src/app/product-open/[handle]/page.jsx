@@ -5,6 +5,8 @@ import Image from 'next/image';
 import useProducts from '@/hooks/useProducts';
 import ExpandableText from '@/components/text/ExpandableText';
 import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
   HeartIcon,
   MinusIcon,
   PlusIcon,
@@ -22,6 +24,7 @@ import ProductCarousel from '@/components/carousels/ProductCarousel';
 export default function OpenProductView() {
   const [currentTab, setCurrentTab] = useState('Description');
   const [randomTag, setRandomTag] = useState(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const tags = useMemo(() => ['accesories', 'sale', 'new'], []);
 
   const pathname = usePathname();
@@ -90,6 +93,11 @@ export default function OpenProductView() {
 
   // Data processing
   const product = products.find((p) => p.handle === handle);
+  const images = product.images.edges;
+  const currentImage =
+    productImages[product.id] ||
+    images[selectedImageIndex]?.node.url ||
+    product.featuredImage?.url;
 
   if (!product)
     return <p className="p-10 text-white">Producto no encontrado.</p>;
@@ -103,29 +111,50 @@ export default function OpenProductView() {
         {/* Product Images */}
         <div className="animate-slide-in-left flex h-full max-h-[750px] max-w-[550px] flex-col items-center justify-between">
           {/* Main Image */}
-          <div className="mb-6 aspect-square w-full overflow-hidden rounded-lg bg-gray-800">
+          <div className="relative mb-6 aspect-square w-full overflow-hidden rounded-lg bg-gray-800">
             <Image
               placeholder="blur"
               blurDataURL="/path/to/lowres.jpg"
               priority
-              src={
-                productImages[product.id] ||
-                product.featuredImage?.url ||
-                product.images.edges[0]?.node.url
-              }
+              src={currentImage}
               alt={product.title}
               width={800}
               height={800}
               className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
             />
+
+            {/* Left arrow */}
+            {selectedImageIndex > 0 && (
+              <button
+                onClick={() => setSelectedImageIndex((prev) => prev - 1)}
+                className="absolute top-1/2 left-3 z-10 -translate-y-1/2 cursor-pointer rounded-full bg-black/60 p-2 text-white hover:bg-black"
+              >
+                <ChevronLeftIcon />
+              </button>
+            )}
+
+            {/* Right arrow */}
+            {selectedImageIndex < images.length - 1 && (
+              <button
+                onClick={() => setSelectedImageIndex((prev) => prev + 1)}
+                className="absolute top-1/2 right-3 z-10 -translate-y-1/2 cursor-pointer rounded-full bg-black/60 p-2 text-white hover:bg-black"
+              >
+                <ChevronRightIcon />
+              </button>
+            )}
           </div>
 
           {/* Thumbnails */}
-          <div className="grid grid-cols-4 gap-3 lg:flex lg:w-full lg:overflow-x-auto">
-            {product.images.edges.slice(0, 5).map((img, index) => (
+          <div className="flex gap-3 lg:flex lg:w-full lg:overflow-x-auto">
+            {images.slice(0, 5).map((img, index) => (
               <div
                 key={index}
-                className="aspect-square overflow-hidden rounded-lg border-gray-600 bg-gray-800 transition-all duration-200 hover:border-gray-400 lg:min-w-[190px]"
+                onClick={() => setSelectedImageIndex(index)}
+                className={`aspect-square overflow-hidden rounded-lg border ${
+                  selectedImageIndex === index
+                    ? 'border-blue-500'
+                    : 'border-gray-600'
+                } cursor-pointer bg-gray-800 transition-all duration-200 hover:border-gray-400 lg:min-w-[190px]`}
               >
                 <Image
                   placeholder="blur"
