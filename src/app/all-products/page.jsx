@@ -17,12 +17,14 @@ export default function ProductsView() {
       {/* Main Content */}
       <div className="mx-auto w-full max-w-7xl">
         {/* Heading */}
-        <h1 className="font-montserrat mb-2 text-2xl font-bold uppercase md:text-3xl">
-          todos los productos
-        </h1>
-        <p className="font-inter mb-6 text-gray-400">
-          Descubre nuestra coleccion completa de Ropa y Accesorios.
-        </p>
+        <div className='md:px-10 px-3'>
+          <h1 className="font-montserrat mb-2 text-2xl font-bold uppercase md:text-3xl">
+            todos los productos
+          </h1>
+          <p className="font-inter mb-6 text-gray-400">
+            Descubre nuestra coleccion completa de Ropa y Accesorios.
+          </p>
+        </div>
 
         {/* Products Grid */}
         <div className="">

@@ -2,13 +2,24 @@
 
 import { useState } from 'react';
 import ShopifyProductCard from '@/components/shopify/ShopifyProductCard';
+import { usePathname } from 'next/navigation';
 
 export default function ShopifyFilter({ className }) {
   const [genderFilter, setGenderFilter] = useState(null);
 
+  const pathname = usePathname();
+
   return (
     <main className="flex flex-col items-center gap-5">
-      <div className="mb-4 flex gap-2 self-start">
+      <div
+        className={`mb-4 flex gap-2 self-start ${
+          pathname === '/'
+            ? 'px-0 md:px-0'
+            : pathname.startsWith('/all-products')
+              ? 'px-3 md:px-0'
+              : 'px-0 md:px-0'
+        } md:px-0`}
+      >
         <button
           onClick={() => setGenderFilter(null)}
           className={`font-poppins cursor-pointer rounded-md px-2 py-2 font-medium transition-all duration-200 md:px-6 ${
