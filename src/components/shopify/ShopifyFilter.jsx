@@ -4,7 +4,7 @@ import { useState } from 'react';
 import ShopifyProductCard from '@/components/shopify/ShopifyProductCard';
 import { usePathname } from 'next/navigation';
 
-export default function ShopifyFilter({ className }) {
+export default function ShopifyFilter({ className, tagFilter }) {
   const [genderFilter, setGenderFilter] = useState(null);
 
   const pathname = usePathname();
@@ -12,7 +12,9 @@ export default function ShopifyFilter({ className }) {
   return (
     <main className="flex flex-col items-center gap-5">
       <div
-        className={`mb-4 flex gap-2 self-start ${
+        className={`mb-4 gap-2 self-start ${
+          pathname.startsWith('/product-open') ? 'hidden' : 'flex'
+        } ${
           pathname === '/'
             ? 'px-0 md:px-0'
             : pathname.startsWith('/all-products')
@@ -53,6 +55,7 @@ export default function ShopifyFilter({ className }) {
       </div>
 
       <ShopifyProductCard
+        tagFilter={tagFilter}
         className={`${className}`}
         genderFilter={genderFilter}
       />

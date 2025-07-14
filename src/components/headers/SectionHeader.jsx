@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation';
 import ShopifyFilter from '../shopify/ShopifyFilter';
 
-function SectionHeader({ title, subtitle, className }) {
+function SectionHeader({ title, subtitle, className, tagFilter }) {
   const pathname = usePathname();
   return (
     <div
@@ -26,7 +26,7 @@ function SectionHeader({ title, subtitle, className }) {
 
       {/* Filters */}
       <div className="animate-slide-in-left w-full">
-        <ShopifyFilter className={className} />
+        <ShopifyFilter tagFilter={tagFilter} className={className} />
       </div>
     </div>
   );

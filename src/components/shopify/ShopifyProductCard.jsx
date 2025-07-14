@@ -6,7 +6,11 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function ShopifyProductCard({ className = '', genderFilter }) {
+export default function ShopifyProductCard({
+  className = '',
+  genderFilter,
+  tagFilter,
+}) {
   const pathname = usePathname();
   const { sidebarCategorieFilter, mainCategorieFilter } = useFilterContext();
   const { products, isLoading, isError } = useProducts();
@@ -38,6 +42,12 @@ export default function ShopifyProductCard({ className = '', genderFilter }) {
             opt.value.toLowerCase() === genderFilter.toLowerCase()
         )
       )
+    );
+  }
+
+  if (tagFilter) {
+    filteredProducts = filteredProducts.filter((product) =>
+      product.tags.some((tag) => tag.toLowerCase() === tagFilter.toLowerCase())
     );
   }
 

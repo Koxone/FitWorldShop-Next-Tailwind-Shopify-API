@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import Image from 'next/image';
 import useProducts from '@/hooks/useProducts';
 import ExpandableText from '@/components/text/ExpandableText';
@@ -13,7 +13,7 @@ import {
 } from '@/components/icons/Icons';
 import { useShopifyProductContext } from '@/context/ShopifyProductsContext';
 import AddToCartButton from '@/components/buttons/products/AddToCartButton';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import SectionHeader from '@/components/headers/SectionHeader';
 import ViewAllButton from '@/components/buttons/products/ViewAllButton';
 import PromoSectionContainer from '@/components/containers/PromoSectionContainer';
@@ -21,6 +21,19 @@ import ProductCarousel from '@/components/carousels/ProductCarousel';
 
 export default function OpenProductView() {
   const [currentTab, setCurrentTab] = useState('Description');
+  const [randomTag, setRandomTag] = useState(null);
+  const tags = useMemo(() => ['accesories', 'sale', 'new'], []);
+
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (pathname.startsWith('/product-open')) {
+      const tag = tags[Math.floor(Math.random() * tags.length)];
+      setRandomTag(tag);
+    }
+  }, [pathname, tags]);
+
+  if (!pathname.startsWith('/product-open')) return null;
 
   // Shopify Context
   const {
@@ -299,10 +312,14 @@ export default function OpenProductView() {
 
       <div className="flex w-full flex-col gap-10">
         {/* Product Info */}
-        <SectionHeader
-          className="flex flex-nowrap gap-4"
-          title="mas productos"
-        />
+        {randomTag && (
+          <SectionHeader
+            tagFilter={randomTag}
+            className="flex flex-nowrap gap-4"
+            title="mas productos"
+          />
+        )}
+
         <ViewAllButton />
         <PromoSectionContainer
           title="Categorias"
