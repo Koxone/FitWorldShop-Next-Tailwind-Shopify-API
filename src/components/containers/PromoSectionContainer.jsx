@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import React from 'react';
 
 function PromoSectionContainer({ title, subtitle, type }) {
@@ -43,8 +44,18 @@ function PromoSectionContainer({ title, subtitle, type }) {
     ],
   };
 
+  const pathname = usePathname();
+
   return (
-    <section className="flex w-full flex-col items-start justify-center">
+    <section
+      className={`flex w-full flex-col items-start justify-center ${
+        pathname === '/'
+          ? 'px-4 md:px-0'
+          : pathname.startsWith('/product-open')
+            ? 'px- md:px-0'
+            : 'px-0 md:px-10'
+      }`}
+    >
       <div className="animate-fade-in mb-4 pl-5 text-left md:pl-0">
         <h2 className="text-lg font-bold tracking-wider text-neutral-400 uppercase">
           {subtitle}
