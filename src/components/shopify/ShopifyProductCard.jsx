@@ -3,6 +3,7 @@
 import { useFilterContext } from '@/context/FilterContext';
 import useProducts from '@/hooks/useProducts';
 import Image from 'next/image';
+import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -10,6 +11,7 @@ export default function ShopifyProductCard({
   className = '',
   genderFilter,
   tagFilter,
+  title = false,
 }) {
   const pathname = usePathname();
   const { sidebarCategorieFilter, mainCategorieFilter } = useFilterContext();
@@ -99,22 +101,23 @@ export default function ShopifyProductCard({
         >
           {/* IMAGE */}
           <div className="relative aspect-square w-full overflow-hidden">
-            <Image
-              placeholder="blur"
-              blurDataURL="/path/to/lowres.jpg"
-              priority
-              src={
-                productImages[product.id] ||
-                product.featuredImage?.url ||
-                product.images.edges[0]?.node.url
-              }
-              alt={product.title}
-              width={500}
-              height={500}
-              className="w-full cursor-pointer object-cover transition-transform duration-500 group-hover:scale-105"
-              sizes="(max-width: 768px) 100vw, 500px"
-              onClick={() => router.push(`/product-open/${product.handle}`)}
-            />
+            <Link href={`/product-open/${product.handle}`}>
+              <Image
+                placeholder="blur"
+                blurDataURL="/path/to/lowres.jpg"
+                priority
+                src={
+                  productImages[product.id] ||
+                  product.featuredImage?.url ||
+                  product.images.edges[0]?.node.url
+                }
+                alt={`Imagen del producto: ${product.title}`}
+                width={500}
+                height={500}
+                className="w-full cursor-pointer object-cover transition-transform duration-500 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, 500px"
+              />
+            </Link>
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:p-4">
               <button
                 onClick={() => router.push(`/product-open/${product.handle}`)}
