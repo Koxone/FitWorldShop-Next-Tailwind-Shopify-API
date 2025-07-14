@@ -1,31 +1,39 @@
 'use client';
 
-import { useFilterContext } from '@/context/FilterContext';
 import useProducts from '@/hooks/useProducts';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { useFilterContext } from '@/context/FilterContext';
 import { useState } from 'react';
 
 export default function ShopifyProductCard({
   className = '',
-  genderFilter,
+  categoryFilter,
   tagFilter,
   title = false,
 }) {
-  const pathname = usePathname();
-  const { sidebarCategorieFilter, mainCategorieFilter } = useFilterContext();
-  const { products, isLoading, isError } = useProducts();
-  const [productImages, setProductImages] = useState({});
+  // Functions
   const router = useRouter();
+  const pathname = usePathname();
 
+  // Context
+  const { sidebarCategorieFilter, mainCategorieFilter } = useFilterContext();
+
+  // Hooks
+  const { products, isLoading, isError } = useProducts();
+
+  // States
+  const [productImages, setProductImages] = useState({});
+
+  // Functions Related
   const activeCategoryFilter = pathname.startsWith('/all-products')
     ? sidebarCategorieFilter
     : mainCategorieFilter;
 
+  // Context Related
   if (isLoading)
     return <div className="p-4 text-center">Cargando productos...</div>;
-
   if (isError)
     return (
       <div className="p-4 text-center text-red-500">
@@ -33,15 +41,16 @@ export default function ShopifyProductCard({
       </div>
     );
 
+  // Hooks Related
   let filteredProducts = [...products];
 
-  if (genderFilter) {
+  if (categoryFilter) {
     filteredProducts = filteredProducts.filter((product) =>
       product.variants.edges.some((variant) =>
         variant.node.selectedOptions.some(
           (opt) =>
             opt.name.toLowerCase() === 'sexo objetivo' &&
-            opt.value.toLowerCase() === genderFilter.toLowerCase()
+            opt.value.toLowerCase() === categoryFilter.toLowerCase()
         )
       )
     );

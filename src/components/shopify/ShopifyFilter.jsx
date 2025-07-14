@@ -5,7 +5,7 @@ import ShopifyProductCard from '@/components/shopify/ShopifyProductCard';
 import { usePathname } from 'next/navigation';
 
 export default function ShopifyFilter({ className, tagFilter }) {
-  const [genderFilter, setGenderFilter] = useState(null);
+  const [categoryFilter, setCategoryFilter] = useState(null);
 
   const pathname = usePathname();
 
@@ -23,9 +23,9 @@ export default function ShopifyFilter({ className, tagFilter }) {
         } md:px-0`}
       >
         <button
-          onClick={() => setGenderFilter(null)}
+          onClick={() => setCategoryFilter(null)}
           className={`font-poppins cursor-pointer rounded-md px-2 py-2 font-medium transition-all duration-200 md:px-6 ${
-            genderFilter === null
+            categoryFilter === null
               ? 'bg-white text-gray-900'
               : 'border text-gray-300 hover:bg-gray-700 hover:text-white'
           }`}
@@ -33,9 +33,9 @@ export default function ShopifyFilter({ className, tagFilter }) {
           TODOS
         </button>
         <button
-          onClick={() => setGenderFilter('Masculino')}
+          onClick={() => setCategoryFilter('Masculino')}
           className={`font-poppins cursor-pointer rounded-md px-1 py-2 font-medium transition-all duration-200 md:px-6 ${
-            genderFilter === 'Masculino'
+            categoryFilter === 'Masculino'
               ? 'bg-white text-gray-900'
               : 'border text-gray-300 hover:bg-gray-700 hover:text-white'
           }`}
@@ -43,9 +43,9 @@ export default function ShopifyFilter({ className, tagFilter }) {
           HOMBRES
         </button>
         <button
-          onClick={() => setGenderFilter('Femenino')}
+          onClick={() => setCategoryFilter('Femenino')}
           className={`font-poppins cursor-pointer rounded-md px-1 py-2 font-medium transition-all duration-200 md:px-6 ${
-            genderFilter === 'Femenino'
+            categoryFilter === 'Femenino'
               ? 'bg-white text-gray-900'
               : 'border text-gray-300 hover:bg-gray-700 hover:text-white'
           }`}
@@ -57,7 +57,7 @@ export default function ShopifyFilter({ className, tagFilter }) {
       <ShopifyProductCard
         tagFilter={tagFilter}
         className={`${className}`}
-        genderFilter={genderFilter}
+        categoryFilter={categoryFilter}
       />
     </main>
   );
