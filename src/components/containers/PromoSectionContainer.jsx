@@ -130,8 +130,12 @@ function PromoSectionContainer({ title, subtitle, type }) {
               </h3>
               <div
                 onClick={() => {
-                  setSidebarCategorieFilter(section.route);
-                  router.push('/all-products');
+                  if (type !== 'businesses') {
+                    setSidebarCategorieFilter(section.route);
+                    router.push('/all-products');
+                  } else if (section.url) {
+                    window.open(section.url, '_blank');
+                  }
                 }}
                 className="cursor-pointer rounded-full bg-white px-10 py-2 text-center font-semibold text-black uppercase transition-all duration-300 ease-in-out hover:bg-neutral-300"
               >
