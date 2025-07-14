@@ -175,7 +175,7 @@ export default function ShopifyProductCard({ className = '', genderFilter }) {
 
             {/*  SIZE SELECTOR  */}
             {product.options?.find((o) => o.name.toLowerCase() === 'talla') && (
-              <div className="mt-2 flex hidden flex-wrap justify-start gap-1 md:block">
+              <div className="mt-2 hidden flex-wrap justify-start gap-1 md:block">
                 {product.options
                   .find((o) => o.name.toLowerCase() === 'talla')
                   .values.map((size, index) => (
