@@ -8,16 +8,13 @@ import Cart from '../cart/Cart';
 import { usePurchase } from '@/context/PurchaseContext';
 import { useRouter } from 'next/navigation';
 import { useAuthContext } from '@/context/AuthContext';
+import { useFilterContext } from '@/context/FilterContext';
 
 const Header = () => {
-  const {
-    cartItems,
-    updateQuantity,
-    removeItem,
-    clearCart,
-    isCartOpen,
-    setIsCartOpen,
-  } = usePurchase();
+  const { setSidebarCategorieFilter, categories } = useFilterContext();
+  const allowedValues = [null, 'men', 'women', 'accesories', 'new', 'sale'];
+
+  const { cartItems, isCartOpen, setIsCartOpen } = usePurchase();
   const buttons = generalTextData.header.buttons;
   const { isLoggedIn, setIsLoggedIn } = useAuthContext();
   const router = useRouter();
@@ -27,6 +24,11 @@ const Header = () => {
     } else {
       router.push('/auth/dashboard');
     }
+  };
+
+  const handleClickCategorie = (value) => {
+    setSidebarCategorieFilter(value);
+    router.push('/all-products');
   };
 
   return (
@@ -43,9 +45,15 @@ const Header = () => {
           <LogoButton />
           {/* Desktop Navigation Buttons */}
           <nav className="hidden justify-center space-x-8 lg:flex">
-            {Object.entries(buttons).map(([key, value]) => (
-              <HeaderButton key={value} text={value} />
-            ))}
+            {categories
+              .filter((cat) => allowedValues.includes(cat.value))
+              .map(({ label, value }) => (
+                <HeaderButton
+                  key={label}
+                  text={label}
+                  onClick={() => handleClickCategorie(value)}
+                />
+              ))}
           </nav>
           {/* Right Icons */}
           <div className="flex items-center justify-end space-x-4">
