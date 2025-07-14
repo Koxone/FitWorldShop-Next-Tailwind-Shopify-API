@@ -51,21 +51,21 @@ function PromoSectionContainer({ title, subtitle, type }) {
     businesses: [
       {
         title: 'Etereah',
-        subtitle: 'Ropa que no solo es comoda, se ve bien!',
+        subtitle: 'Los mejores Perfumes Arabes',
         image: '/etereah.webp',
         buttonText: 'COMPRA YA',
         url: 'https://www.etereah.com/',
       },
       {
         title: 'koxland',
-        subtitle: 'No importa la ocasion, lo tenemos!',
+        subtitle: 'Desarrollo Web a tu medida',
         image: 'koxland.png',
-        buttonText: 'COMPRA YA',
+        buttonText: 'conocenos',
         url: 'https://koxland.dev/',
       },
       {
         title: 'fit world shop',
-        subtitle: 'Sientete seguro en cualquier momento',
+        subtitle: 'Suplementos Deportivos',
         image: '/fws.png',
         buttonText: 'COMPRA YA',
         url: 'https://www.fitworldshop.com.mx/',
@@ -97,37 +97,27 @@ function PromoSectionContainer({ title, subtitle, type }) {
 
       {/* Horizontal Scroll Container */}
       <div className="flex w-full snap-x snap-mandatory justify-between gap-4 overflow-x-auto pb-4 md:px-0">
-        {shopData[type]?.map((section, idx) => (
-          <div
-            key={idx}
-            className="group relative h-[400px] min-w-[80%] snap-center overflow-hidden rounded-lg border border-neutral-600/40 sm:min-w-[60%] md:min-w-[40%] lg:min-w-[30%]"
-          >
+        {shopData[type]?.map((section, idx) => {
+          let imgClass = 'object-cover';
+
+          if (
+            type === 'businesses' &&
+            section.title.toLowerCase() === 'koxland'
+          ) {
+            imgClass = 'object-contain p-6';
+          } else if (idx === 0) {
+            imgClass += ' translate-y-0';
+          } else if (idx === 1) {
+            imgClass += ' -translate-y-2';
+          } else if (type === 'businesses' && idx === 2) {
+            imgClass += 'md:ml-0 -translate-y-10 md:-translate-y-0';
+          }
+
+          return (
             <div
-              onClick={() => {
-                if (type !== 'businesses') {
-                  setSidebarCategorieFilter(section.route);
-                  router.push('/all-products');
-                } else if (section.url) {
-                  window.open(section.url, '_blank');
-                }
-              }}
-              className="absolute inset-0 cursor-pointer"
+              key={idx}
+              className="group relative aspect-square w-[400px] min-w-[80%] cursor-pointer snap-center overflow-hidden rounded-lg border border-neutral-600/40 sm:min-w-[60%] md:min-w-[40%] lg:min-w-[30%]"
             >
-              <img
-                src={section.image || section.img}
-                alt={section.title}
-                className={`absolute inset-0 h-full w-full transition-transform duration-1000 ease-out group-hover:scale-110 ${
-                  section.title.toLowerCase() === 'koxland'
-                    ? 'object-contain p-6'
-                    : 'object-cover'
-                }`}
-              />
-              <div className="absolute inset-0 bg-black/20"></div>
-            </div>
-            <div className="absolute bottom-0 left-0 flex flex-col gap-4 p-6">
-              <h3 className="text-2xl font-bold text-white uppercase">
-                {section.title}
-              </h3>
               <div
                 onClick={() => {
                   if (type !== 'businesses') {
@@ -137,13 +127,38 @@ function PromoSectionContainer({ title, subtitle, type }) {
                     window.open(section.url, '_blank');
                   }
                 }}
-                className="cursor-pointer rounded-full bg-white px-10 py-2 text-center font-semibold text-black uppercase transition-all duration-300 ease-in-out hover:bg-neutral-300"
+                className="absolute inset-0"
               >
-                {section.buttonText || 'Shop Now'}
+                <img
+                  src={section.image || section.img}
+                  alt={section.title}
+                  className={`absolute inset-0 h-full w-full transition-transform duration-1000 ease-out group-hover:scale-125 ${imgClass}`}
+                />
+                <div className="absolute inset-0 bg-black/20"></div>
+              </div>
+
+              <div className="absolute bottom-0 left-0 flex flex-col p-6">
+                <h3 className="md:text-2xl text-lg font-bold text-white uppercase">
+                  {section.title}
+                </h3>
+                <h3 className="mb-4 text-white">{section.subtitle}</h3>
+                <div
+                  onClick={() => {
+                    if (type !== 'businesses') {
+                      setSidebarCategorieFilter(section.route);
+                      router.push('/all-products');
+                    } else if (section.url) {
+                      window.open(section.url, '_blank');
+                    }
+                  }}
+                  className="cursor-pointer rounded-full bg-white px-10 py-2 text-center font-semibold text-black uppercase transition-all duration-300 ease-in-out hover:bg-neutral-300"
+                >
+                  {section.buttonText || 'Shop Now'}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
