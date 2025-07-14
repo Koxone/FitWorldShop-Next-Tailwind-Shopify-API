@@ -36,8 +36,14 @@ export default function MainBanner() {
     <div
       key={index}
       className="relative flex h-[60vh] items-center justify-center bg-cover bg-center text-center md:h-[70vh]"
-      style={{ backgroundImage: `url(${item.image})` }}
     >
+      <img
+        src={`${item.image}`}
+        alt="Main Banner"
+        className="absolute inset-0 h-full w-full object-cover"
+        loading="eager"
+        fetchPriority="high"
+      />
       <div className="absolute inset-0 bg-black/40"></div>
       <div className="relative z-10 mx-auto max-w-4xl px-4">
         <h1 className="font-montserrat mb-4 text-4xl font-bold tracking-wider text-white md:text-6xl lg:text-8xl">
