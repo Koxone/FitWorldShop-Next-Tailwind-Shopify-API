@@ -150,7 +150,17 @@ export default function ShopifyProductCard({ className = '', genderFilter }) {
             {/* Category Information */}
             {product.category?.name && (
               <p className="text-xs text-gray-500">
-                Categoría: {product.category.name}
+                Categoría:{' '}
+                {product.tags
+                  .map((tag) =>
+                    tag
+                      .split(' ')
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                      )
+                      .join(' ')
+                  )
+                  .join(', ')}
               </p>
             )}
 
