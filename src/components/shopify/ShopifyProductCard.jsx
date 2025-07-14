@@ -1,11 +1,14 @@
 'use client';
 
+import { useFilterContext } from '@/context/FilterContext';
 import useProducts from '@/hooks/useProducts';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function ShopifyProductCard({ className = '', genderFilter }) {
+  const { sidebarCategorieFilter } = useFilterContext();
+
   /*  HOOKS  */
   const { products, isLoading, isError } = useProducts();
   const [productImages, setProductImages] = useState({});
@@ -23,15 +26,27 @@ export default function ShopifyProductCard({ className = '', genderFilter }) {
     );
 
   /*  PRODUCT FILTERING  */
-  const filteredProducts = genderFilter
-    ? products.filter((product) =>
-        product.variants.edges.some((variant) =>
-          variant.node.selectedOptions.some(
-            (opt) => opt.name === 'Sexo objetivo' && opt.value === genderFilter
-          )
+  let filteredProducts = [...products];
+
+  if (genderFilter) {
+    filteredProducts = filteredProducts.filter((product) =>
+      product.variants.edges.some((variant) =>
+        variant.node.selectedOptions.some(
+          (opt) =>
+            opt.name.toLowerCase() === 'sexo objetivo' &&
+            opt.value.toLowerCase() === genderFilter.toLowerCase()
         )
       )
-    : products;
+    );
+  }
+
+  if (sidebarCategorieFilter) {
+    filteredProducts = filteredProducts.filter((product) =>
+      product.tags.some(
+        (tag) => tag.toLowerCase() === sidebarCategorieFilter.toLowerCase()
+      )
+    );
+  }
 
   /*  EVENT HANDLERS  */
   const handleColorClick = (productId, product, color) => {
