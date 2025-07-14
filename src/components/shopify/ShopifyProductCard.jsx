@@ -52,12 +52,20 @@ export default function ShopifyProductCard({ className = '', genderFilter }) {
 
   return (
     <div
-      className={`${className} ${pathname === '/' ? 'flex flex-nowrap overflow-x-auto' : 'grid'} grid-cols-[1fr_1fr] gap-2 px-2 lg:grid-cols-[1fr_1fr_1fr] xl:grid-cols-4`}
+      className={`${className} ${
+        pathname === '/' || pathname.startsWith('/product-open')
+          ? 'mx-auto flex w-full flex-nowrap gap-5 overflow-x-auto'
+          : 'grid grid-cols-[1fr_1fr] gap-2 px-2 lg:grid-cols-[1fr_1fr_1fr] xl:grid-cols-4'
+      }`}
     >
       {filteredProducts.map((product) => (
         <div
           key={product.id}
-          className="group hover-lift relative overflow-hidden rounded-lg border border-neutral-300/10 bg-gray-800 transition-all duration-300"
+          className={`group hover-lift relative overflow-hidden rounded-lg border border-neutral-300/10 bg-gray-800 transition-all duration-300 ${
+            pathname === '/' || pathname.startsWith('/product-open')
+              ? 'max-w-[300px] min-w-[250px] flex-shrink-0'
+              : 'w-full'
+          }`}
         >
           {/*  PRODUCT IMAGE SECTION  */}
           <div className="relative aspect-square w-full overflow-hidden">
