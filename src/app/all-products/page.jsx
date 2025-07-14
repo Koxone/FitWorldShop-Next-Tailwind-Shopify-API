@@ -5,7 +5,7 @@ import SideBarMenu from '@/components/nav/SideBarMenu';
 
 export default function ProductsView() {
   return (
-    <div className="grid min-h-screen grid-cols-[auto_1fr] gap-4 overflow-x-hidden bg-gray-900 px-4 py-8 text-white sm:px-6 lg:px-8">
+    <div className="grid min-h-screen grid-cols-[auto_1fr] overflow-x-hidden bg-gray-900 py-8 text-white sm:px-6 lg:px-8">
       {/* Sidebar */}
       <div className="hidden md:block">
         {/* Aquí puedes colocar el componente FiltersSidebar */}
@@ -26,7 +26,7 @@ export default function ProductsView() {
 
         {/* Products Grid */}
         <div className="">
-          <SectionHeader className="flex w-screen pr-10 md:w-full md:flex-wrap md:pr-0" />
+          <SectionHeader className="flex md:w-full md:flex-wrap md:pr-0" />
         </div>
       </div>
     </div>

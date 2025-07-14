@@ -5,8 +5,8 @@ import { useState } from 'react';
 
 function SideBarMenu() {
   const {
-    categorieFilter,
-    setCategorieFilter,
+    mainCategorieFilter,
+    setMainCategorieFilter,
     categories,
     sidebarCategorieFilter,
     setSidebarCategorieFilter,

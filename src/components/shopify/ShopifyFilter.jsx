@@ -41,7 +41,6 @@ export default function ShopifyFilter({ className }) {
         </button>
       </div>
 
-      {/* <ShopifyProductCard genderFilter={genderFilter} /> */}
       <ShopifyProductCard
         className={`${className}`}
         genderFilter={genderFilter}

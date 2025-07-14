@@ -2,7 +2,7 @@
 
 import useProducts from '@/hooks/useProducts';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function ShopifyProductCard({ className = '', genderFilter }) {
@@ -48,15 +48,16 @@ export default function ShopifyProductCard({ className = '', genderFilter }) {
     }
   };
 
-  /*  RENDER  */
+  const pathname = usePathname();
+
   return (
     <div
-      className={`${className} mx-auto flex w-full flex-nowrap gap-5 overflow-x-auto`}
+      className={`${className} ${pathname === '/' ? 'flex flex-nowrap overflow-x-auto' : 'grid'} grid-cols-[1fr_1fr] gap-2 px-2 lg:grid-cols-[1fr_1fr_1fr] xl:grid-cols-4`}
     >
       {filteredProducts.map((product) => (
         <div
           key={product.id}
-          className="group hover-lift relative max-w-[300px] min-w-[250px] flex-shrink-0 overflow-hidden rounded-lg border border-neutral-300/10 bg-gray-800 transition-all duration-300"
+          className="group hover-lift relative overflow-hidden rounded-lg border border-neutral-300/10 bg-gray-800 transition-all duration-300"
         >
           {/*  PRODUCT IMAGE SECTION  */}
           <div className="relative aspect-square w-full overflow-hidden">
@@ -78,10 +79,10 @@ export default function ShopifyProductCard({ className = '', genderFilter }) {
             />
 
             {/* Quick View Button Overlay */}
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:p-4">
               <button
                 onClick={() => router.push(`/product-open/${product.handle}`)}
-                className="focus-ring w-full cursor-pointer rounded bg-white px-4 py-2 font-semibold text-gray-900 transition-colors duration-200 hover:bg-gray-300"
+                className="focus-ring hidden w-full cursor-pointer rounded bg-white px-4 py-2 font-semibold text-gray-900 transition-colors duration-200 hover:bg-gray-300 md:block"
               >
                 Vista Rapida
               </button>
@@ -89,7 +90,7 @@ export default function ShopifyProductCard({ className = '', genderFilter }) {
           </div>
 
           {/*  PRODUCT DETAILS SECTION  */}
-          <div className="flex flex-col gap-1 p-4">
+          <div className="flex flex-col gap-1 p-3 md:p-4">
             {/*  COLOR SELECTOR  */}
             {product.options?.find((o) => o.name.toLowerCase() === 'color') && (
               <div className="mt-2 flex gap-1">
@@ -112,27 +113,27 @@ export default function ShopifyProductCard({ className = '', genderFilter }) {
             {/*  PRODUCT TEXT CONTENT  */}
             <div>
               {/* Product Title */}
-              <h2 className="font-montserrat mb-1 text-lg font-semibold text-white group-hover:text-gray-300">
+              <h2 className="font-montserrat text-lg font-semibold text-white group-hover:text-gray-300 md:mb-1">
                 {product.title}
               </h2>
 
               {/* Product Description */}
-              <p className="font-inter mb-2 max-h-20 overflow-y-auto text-sm text-gray-400">
+              <p className="font-inter mb-2 hidden max-h-20 overflow-y-auto text-sm text-gray-400 md:block">
                 {product.description}
               </p>
             </div>
 
             {/*  PRICING SECTION  */}
-            <div className="flex gap-2">
+            <div className="md:flex md:gap-2">
               {/* Current Price */}
-              <p className="font-poppins text-lg font-bold text-white">
+              <p className="text-sm font-bold text-white md:text-lg">
                 ${product.variants.edges[0].node.price.amount}{' '}
                 {product.variants.edges[0].node.price.currencyCode}
               </p>
 
               {/* Compare At Price (Discounted) */}
               {product.compareAtPriceRange?.maxVariantPrice?.amount && (
-                <p className="font-poppins text-sm text-gray-500 line-through">
+                <p className="text-xs text-gray-500 line-through md:text-sm">
                   ${product.compareAtPriceRange.maxVariantPrice.amount}{' '}
                   {product.compareAtPriceRange.maxVariantPrice.currencyCode}
                 </p>
@@ -142,7 +143,7 @@ export default function ShopifyProductCard({ className = '', genderFilter }) {
             {/*  ADDITIONAL PRODUCT INFO  */}
             {/* Vendor Information */}
             {product.vendor && (
-              <p className="mt-1 text-xs text-gray-500">
+              <p className="mt-1 hidden text-xs text-gray-500 md:block">
                 Vendedor: {product.vendor}
               </p>
             )}
@@ -166,7 +167,7 @@ export default function ShopifyProductCard({ className = '', genderFilter }) {
 
             {/*  SIZE SELECTOR  */}
             {product.options?.find((o) => o.name.toLowerCase() === 'talla') && (
-              <div className="mt-2 flex flex-wrap justify-start gap-1">
+              <div className="mt-2 flex hidden flex-wrap justify-start gap-1 md:block">
                 {product.options
                   .find((o) => o.name.toLowerCase() === 'talla')
                   .values.map((size, index) => (

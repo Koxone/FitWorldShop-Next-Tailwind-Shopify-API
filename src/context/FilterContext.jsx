@@ -5,7 +5,7 @@ import { createContext, useContext, useState } from 'react';
 const FilterContext = createContext();
 
 export function FilterContextProvider({ children }) {
-  const [categorieFilter, setCategorieFilter] = useState(null);
+  const [mainCategorieFilter, setMainCategorieFilter] = useState(null);
   const [sidebarCategorieFilter, setSidebarCategorieFilter] = useState();
 
   const categories = [
@@ -35,8 +35,8 @@ export function FilterContextProvider({ children }) {
   return (
     <FilterContext.Provider
       value={{
-        categorieFilter,
-        setCategorieFilter,
+        mainCategorieFilter,
+        setMainCategorieFilter,
         categories,
         sidebarCategorieFilter,
         setSidebarCategorieFilter,
