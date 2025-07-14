@@ -12,12 +12,14 @@ import { useFilterContext } from '@/context/FilterContext';
 
 const Header = () => {
   const { setSidebarCategorieFilter, categories } = useFilterContext();
+  
   const allowedValues = [null, 'men', 'women', 'accesories', 'new', 'sale'];
 
   const { cartItems, isCartOpen, setIsCartOpen } = usePurchase();
-  const buttons = generalTextData.header.buttons;
   const { isLoggedIn, setIsLoggedIn } = useAuthContext();
+
   const router = useRouter();
+
   const handleClick = () => {
     if (!isLoggedIn) {
       router.push('/auth/login');

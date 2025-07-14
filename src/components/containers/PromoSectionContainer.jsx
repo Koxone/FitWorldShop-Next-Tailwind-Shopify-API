@@ -1,38 +1,42 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { useFilterContext } from '@/context/FilterContext';
+import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 
 function PromoSectionContainer({ title, subtitle, type }) {
   const shopData = {
     categories: [
       {
-        title: 'Shirts',
+        title: 'Playeras',
+        route: 'shirts',
         href: '/collections/mens-shirts',
-        img: '//alphaleteathletics.com/cdn/shop/files/shirts_3042a37b-e9cd-42fc-8393-418253a68a40.jpg?crop=center&v=1750870312&width=2000',
+        img: '/More/shirts.png',
       },
       {
         title: 'Shorts',
+        route: 'shorts',
         href: '/collections/mens-shorts',
-        img: '//alphaleteathletics.com/cdn/shop/files/shorts_dd6e174b-eff9-4b14-9453-b3a7c14da9ba.jpg?crop=center&v=1750870312&width=2000',
+        img: '/More/shorts.png',
       },
       {
         title: 'Pants',
+        route: 'jogger',
         href: '/collections/mens-joggers',
-        img: '//alphaleteathletics.com/cdn/shop/files/pants_fe80ca86-aa8c-4654-b06f-6559d0f41c57.jpg?crop=center&v=1750870312&width=2000',
+        img: '/More/pants.png',
       },
     ],
     promos: [
       {
         title: 'PARA ELLA',
         subtitle: 'Ropa que no solo es comoda, se ve bien!',
-        image: '/promo1.jpg',
+        image: 'https://alphaleteathletics.com/cdn/shop/files/forher5x12_9c986f9b-3ebd-4427-9b66-6dbb35ccf525.jpg?v=1751560816&width=960',
         buttonText: 'COMPRA YA',
       },
       {
         title: 'PARA EL',
         subtitle: 'Sientete seguro en cualquier momento',
-        image: '/promo4.jpg',
+        image: 'https://alphaleteathletics.com/cdn/shop/files/forhim4x5_e6a226e9-6f4d-40e6-a91e-b224801b7d86.jpg?crop=center&v=1751560816&width=960',
         buttonText: 'COMPRA YA',
       },
       {
@@ -45,7 +49,8 @@ function PromoSectionContainer({ title, subtitle, type }) {
   };
 
   const pathname = usePathname();
-
+  const { setSidebarCategorieFilter } = useFilterContext();
+  const router = useRouter();
   return (
     <section
       className={`flex w-full flex-col items-start justify-center ${
@@ -72,24 +77,33 @@ function PromoSectionContainer({ title, subtitle, type }) {
             key={idx}
             className="group relative h-[400px] min-w-[80%] snap-center overflow-hidden rounded-lg border border-neutral-600/40 sm:min-w-[60%] md:min-w-[40%] lg:min-w-[30%]"
           >
-            <a href={section.href || '#'} className="absolute inset-0">
+            <div
+              onClick={() => {
+                setSidebarCategorieFilter(section.route);
+                router.push('/all-products');
+              }}
+              className="absolute inset-0 cursor-pointer"
+            >
               <img
                 src={section.image || section.img}
                 alt={section.title}
                 className="absolute inset-0 h-full w-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-black/20"></div>
-            </a>
+            </div>
             <div className="absolute bottom-0 left-0 flex flex-col gap-4 p-6">
               <h3 className="text-2xl font-bold text-white uppercase">
                 {section.title}
               </h3>
-              <a
-                href={section.href || '#'}
-                className="rounded-full bg-white px-10 py-2 text-center font-semibold text-black uppercase transition-all duration-300 ease-in-out hover:bg-neutral-300"
+              <div
+                onClick={() => {
+                  setSidebarCategorieFilter(section.route);
+                  router.push('/all-products');
+                }}
+                className="cursor-pointer rounded-full bg-white px-10 py-2 text-center font-semibold text-black uppercase transition-all duration-300 ease-in-out hover:bg-neutral-300"
               >
                 {section.buttonText || 'Shop Now'}
-              </a>
+              </div>
             </div>
           </div>
         ))}
