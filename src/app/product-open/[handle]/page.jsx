@@ -171,6 +171,28 @@ export default function OpenProductView() {
           </div>
         </div>
 
+        {/* Color Selection */}
+        <div className="py-4 md:hidden">
+          {product.options?.find((o) => o.name.toLowerCase() === 'color') && (
+            <div className="mt-2 flex gap-1">
+              {product.options
+                .find((o) => o.name.toLowerCase() === 'color')
+                .values.map((color, index) => (
+                  <span
+                    key={index}
+                    onClick={() => {
+                      handleColorClick(product.id, product, color);
+                      setCurrentColor(toPascalCase(color));
+                    }}
+                    className="h-10 w-10 cursor-pointer rounded-full border-2 border-white transition duration-200 hover:scale-110"
+                    style={{ backgroundColor: color.toLowerCase() }}
+                    title={color}
+                  />
+                ))}
+            </div>
+          )}
+        </div>
+
         {/* Product Info */}
         <div className="animate-slide-in-right max-w-[500px] rounded-lg text-white">
           {/* Badge, Title and Description */}
@@ -219,7 +241,7 @@ export default function OpenProductView() {
           </div>
 
           {/* Color Selection */}
-          <div>
+          <div className="hidden md:block">
             <h3 className="mb-2 text-sm font-semibold md:text-base">
               Color: {currentColor}
             </h3>
