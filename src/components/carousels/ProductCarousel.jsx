@@ -21,7 +21,7 @@ export default function ProductCarousel() {
               href={`/product-open/${product.handle}`}
               className="relative block h-full w-full"
             >
-              <div className="group relative flex h-full w-full items-center justify-center overflow-hidden rounded-lg border border-neutral-200 bg-white hover:border-blue-600 dark:border-neutral-800 dark:bg-black">
+              <div className="group relative flex h-fit w-full items-center justify-center overflow-hidden rounded-lg border border-neutral-200 bg-white hover:border-blue-600 dark:border-neutral-800 dark:bg-black">
                 <Image
                   src={
                     product.featuredImage?.url ||
