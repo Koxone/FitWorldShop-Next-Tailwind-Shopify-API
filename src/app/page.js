@@ -23,7 +23,11 @@ export default function Home() {
       <div className="flex w-full max-w-7xl flex-col gap-6 justify-self-center md:px-10">
         {/* Products */}
         <div>
-          <SectionHeader className="flex flex-nowrap gap-4" subtitle="SHOP" title="drop #1" />
+          <SectionHeader
+            className="flex flex-nowrap gap-4"
+            subtitle="SHOP"
+            title="drop #1"
+          />
         </div>
         <ViewAllButton />
 
@@ -36,9 +40,9 @@ export default function Home() {
 
         {/* Promotional Sections */}
         <PromoSectionContainer
-          title="Buscas algo mas?"
+          title="Conoce nuestras marcas"
           subtitle="podria interesarte"
-          type="promos"
+          type="businesses"
         />
 
         {/* Newsletter */}

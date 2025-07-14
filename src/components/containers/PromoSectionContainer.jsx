@@ -30,13 +30,15 @@ function PromoSectionContainer({ title, subtitle, type }) {
       {
         title: 'PARA ELLA',
         subtitle: 'Ropa que no solo es comoda, se ve bien!',
-        image: 'https://alphaleteathletics.com/cdn/shop/files/forher5x12_9c986f9b-3ebd-4427-9b66-6dbb35ccf525.jpg?v=1751560816&width=960',
+        image:
+          'https://alphaleteathletics.com/cdn/shop/files/forher5x12_9c986f9b-3ebd-4427-9b66-6dbb35ccf525.jpg?v=1751560816&width=960',
         buttonText: 'COMPRA YA',
       },
       {
         title: 'PARA EL',
         subtitle: 'Sientete seguro en cualquier momento',
-        image: 'https://alphaleteathletics.com/cdn/shop/files/forhim4x5_e6a226e9-6f4d-40e6-a91e-b224801b7d86.jpg?crop=center&v=1751560816&width=960',
+        image:
+          'https://alphaleteathletics.com/cdn/shop/files/forhim4x5_e6a226e9-6f4d-40e6-a91e-b224801b7d86.jpg?crop=center&v=1751560816&width=960',
         buttonText: 'COMPRA YA',
       },
       {
@@ -44,6 +46,29 @@ function PromoSectionContainer({ title, subtitle, type }) {
         subtitle: 'No importa la ocasion, lo tenemos!',
         image: '/promo5.jpg',
         buttonText: 'COMPRA YA',
+      },
+    ],
+    businesses: [
+      {
+        title: 'Etereah',
+        subtitle: 'Ropa que no solo es comoda, se ve bien!',
+        image: '/etereah.webp',
+        buttonText: 'COMPRA YA',
+        url: 'https://www.etereah.com/',
+      },
+      {
+        title: 'koxland',
+        subtitle: 'No importa la ocasion, lo tenemos!',
+        image: 'koxland.png',
+        buttonText: 'COMPRA YA',
+        url: 'https://koxland.dev/',
+      },
+      {
+        title: 'fit world shop',
+        subtitle: 'Sientete seguro en cualquier momento',
+        image: '/fws.png',
+        buttonText: 'COMPRA YA',
+        url: 'https://www.fitworldshop.com.mx/',
       },
     ],
   };
@@ -79,15 +104,23 @@ function PromoSectionContainer({ title, subtitle, type }) {
           >
             <div
               onClick={() => {
-                setSidebarCategorieFilter(section.route);
-                router.push('/all-products');
+                if (type !== 'businesses') {
+                  setSidebarCategorieFilter(section.route);
+                  router.push('/all-products');
+                } else if (section.url) {
+                  window.open(section.url, '_blank');
+                }
               }}
               className="absolute inset-0 cursor-pointer"
             >
               <img
                 src={section.image || section.img}
                 alt={section.title}
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
+                className={`absolute inset-0 h-full w-full transition-transform duration-1000 ease-out group-hover:scale-110 ${
+                  section.title.toLowerCase() === 'koxland'
+                    ? 'object-contain p-6'
+                    : 'object-cover'
+                }`}
               />
               <div className="absolute inset-0 bg-black/20"></div>
             </div>
