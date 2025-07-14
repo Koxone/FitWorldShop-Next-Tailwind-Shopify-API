@@ -110,7 +110,7 @@ function PromoSectionContainer({ title, subtitle, type }) {
           } else if (idx === 1) {
             imgClass += ' -translate-y-2';
           } else if (type === 'businesses' && idx === 2) {
-            imgClass += 'md:ml-0 -translate-y-10 md:-translate-y-0';
+            imgClass += 'md:ml-0 -ml-5 md:-ml-0 -translate-y-10 md:-translate-y-0';
           }
 
           return (
@@ -138,7 +138,7 @@ function PromoSectionContainer({ title, subtitle, type }) {
               </div>
 
               <div className="absolute bottom-0 left-0 flex flex-col p-6">
-                <h3 className="md:text-2xl text-lg font-bold text-white uppercase">
+                <h3 className="text-lg font-bold text-white uppercase md:text-2xl">
                   {section.title}
                 </h3>
                 <h3 className="mb-4 text-white">{section.subtitle}</h3>
