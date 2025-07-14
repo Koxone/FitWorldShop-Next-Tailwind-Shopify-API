@@ -8,7 +8,7 @@ A modern, responsive **Ecommerce Storefront** built with:
 - **Shopify Storefront Faceless API** integration
 - **Fully responsive** across desktop, tablet, and mobile
 
-🚀 **Live demo:** [ecommerce.koxland.dev](https://ecommerce.koxland.dev/)
+🚀 **Live demo:** [fitworldshop.koxland.dev](https://ecommerce.koxland.dev/)
 
 ## Features
 
