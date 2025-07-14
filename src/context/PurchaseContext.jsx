@@ -45,7 +45,7 @@ export function PurchaseProvider({ children }) {
         return [...prev, product];
       }
     });
-    setIsCartOpen(true);
+    // setIsCartOpen(true);
 
     /* Example usage inside a button onClick:
   onClick={() =>
