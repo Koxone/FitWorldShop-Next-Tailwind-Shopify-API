@@ -4,90 +4,90 @@ export async function GET() {
     process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
 
   const query = `
-{
-  products(first: 100) {
-    edges {
-      node {
-        id
-        title
-        handle
-        description
-        featuredImage {
-          id
-          url
-          altText
-        }
-        images(first: 20) {
-          edges {
-            node {
+    {
+      products(first: 100) {
+        edges {
+          node {
+            id
+            title
+            handle
+            description
+            featuredImage {
+              id
               url
               altText
             }
-          }
-        }
-        variants(first: 100) {
-          edges {
-            node {
-              id
-              title
-              price {
-                amount
-                currencyCode
-              }
-              compareAtPrice {
-                amount
-                currencyCode
-              }
-              selectedOptions {
-                name
-                value
-              }
-              image {
-                url
-                altText
+            images(first: 20) {
+              edges {
+                node {
+                  url
+                  altText
+                }
               }
             }
-          }
-        }
-        options {
-          id
-          name
-          values
-        }
-        vendor
-        tags
-        category {
-          id
-          name
-        }
-        metafield(namespace: "custom", key: "feature") {
-          value
-        }
-        priceRange {
-          minVariantPrice {
-            amount
-            currencyCode
-          }
-          maxVariantPrice {
-            amount
-            currencyCode
-          }
-        }
-        compareAtPriceRange {
-          minVariantPrice {
-            amount
-            currencyCode
-          }
-          maxVariantPrice {
-            amount
-            currencyCode
+            variants(first: 100) {
+              edges {
+                node {
+                  id
+                  title
+                  price {
+                    amount
+                    currencyCode
+                  }
+                  compareAtPrice {
+                    amount
+                    currencyCode
+                  }
+                  selectedOptions {
+                    name
+                    value
+                  }
+                  image {
+                    url
+                    altText
+                  }
+                }
+              }
+            }
+            options {
+              id
+              name
+              values
+            }
+            vendor
+            tags
+            category {
+              id
+              name
+            }
+            metafield(namespace: "custom", key: "feature") {
+              value
+            }
+            priceRange {
+              minVariantPrice {
+                amount
+                currencyCode
+              }
+              maxVariantPrice {
+                amount
+                currencyCode
+              }
+            }
+            compareAtPriceRange {
+              minVariantPrice {
+                amount
+                currencyCode
+              }
+              maxVariantPrice {
+                amount
+                currencyCode
+              }
+            }
           }
         }
       }
     }
-  }
-}
-`;
+  `;
 
   try {
     const response = await fetch(`https://${domain}/api/2023-10/graphql.json`, {
@@ -108,12 +108,22 @@ export async function GET() {
       });
     }
 
-    return new Response(JSON.stringify(json.data.products), { status: 200 });
+    return new Response(JSON.stringify(json.data.products), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
   } catch (error) {
     console.error('❌ Error de conexión:', error);
     return new Response(
       JSON.stringify({ error: 'Error al conectar con Shopify' }),
-      { status: 500 }
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
     );
   }
 }

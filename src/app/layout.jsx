@@ -8,6 +8,7 @@ import { GeneralContextProvider } from '@/context/GeneralContext';
 import { PurchaseProvider } from '@/context/PurchaseContext';
 import { ShopifyProductsProvider } from '@/context/ShopifyProductsContext';
 import { AuthContextProvider } from '@/context/AuthContext';
+import { FilterContextProvider } from '@/context/FilterContext';
 
 export const metadata = {
   title: {
@@ -74,23 +75,25 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <AuthContextProvider>
-      <GeneralContextProvider>
-        <ShopifyProductsProvider>
-          <PurchaseProvider>
-            <html lang="en" className="overflow-x-hidden">
-              <body>
-                <I18nProvider>
-                  <Header />
-                  <PageTransitionWrapper>{children}</PageTransitionWrapper>
-                  <Footer />
-                </I18nProvider>
-                <SpeedInsights />
-              </body>
-            </html>
-          </PurchaseProvider>
-        </ShopifyProductsProvider>
-      </GeneralContextProvider>
-    </AuthContextProvider>
+    <FilterContextProvider>
+      <AuthContextProvider>
+        <GeneralContextProvider>
+          <ShopifyProductsProvider>
+            <PurchaseProvider>
+              <html lang="en" className="overflow-x-hidden">
+                <body>
+                  <I18nProvider>
+                    <Header />
+                    <PageTransitionWrapper>{children}</PageTransitionWrapper>
+                    <Footer />
+                  </I18nProvider>
+                  <SpeedInsights />
+                </body>
+              </html>
+            </PurchaseProvider>
+          </ShopifyProductsProvider>
+        </GeneralContextProvider>
+      </AuthContextProvider>
+    </FilterContextProvider>
   );
 }
