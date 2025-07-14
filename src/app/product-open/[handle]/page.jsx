@@ -171,7 +171,7 @@ export default function OpenProductView() {
           </div>
         </div>
 
-        {/* Color Selection */}
+        {/* Color Selection Mobile */}
         <div className="py-4 md:hidden">
           {product.options?.find((o) => o.name.toLowerCase() === 'color') && (
             <div className="mt-2 flex gap-1">
@@ -240,7 +240,7 @@ export default function OpenProductView() {
             )}
           </div>
 
-          {/* Color Selection */}
+          {/* Color Selection Desktop */}
           <div className="hidden md:block">
             <h3 className="mb-2 text-sm font-semibold md:text-base">
               Color: {currentColor}
