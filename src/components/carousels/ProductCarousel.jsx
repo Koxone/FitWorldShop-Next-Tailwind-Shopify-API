@@ -4,39 +4,6 @@ import useProducts from '@/hooks/useProducts';
 import Image from 'next/image';
 import Link from 'next/link';
 
-// const products = [
-//   {
-//     title: 'Acme Mug',
-//     price: 15.0,
-//     image:
-//       'https://cdn.shopify.com/s/files/1/0754/3727/7491/files/mug-1.png?v=1690003527',
-//     slug: 'acme-mug',
-//   },
-//   {
-//     title: 'Acme Hoodie',
-//     price: 50.0,
-//     image:
-//       'https://cdn.shopify.com/s/files/1/0754/3727/7491/files/hoodie-1.png?v=1690003482',
-//     slug: 'acme-hoodie',
-//   },
-//   {
-//     title: 'Acme Baby Onesie',
-//     price: 10.0,
-//     image:
-//       'https://cdn.shopify.com/s/files/1/0754/3727/7491/files/baby-onesie-beige-1.png?v=1690002632',
-//     slug: 'acme-baby-onesie',
-//   },
-//   {
-//     title: 'Acme Baby Cap',
-//     price: 10.0,
-//     image:
-//       'https://cdn.shopify.com/s/files/1/0754/3727/7491/files/baby-cap-black.png?v=1690002570',
-//     slug: 'acme-baby-cap',
-//   },
-// ];
-
-// const duplicatedProducts = [...products, ...products];
-
 export default function ProductCarousel() {
   const { products, isLoading, isError } = useProducts();
 
@@ -47,7 +14,7 @@ export default function ProductCarousel() {
       <ul className="animate-scroll-x flex w-max gap-4">
         {duplicatedProducts.map((product, i) => (
           <li
-            // key={`${product.slug}-${i}`}
+            key={`${product.handle}-${i}`}
             className="relative aspect-square h-[30vh] max-h-[250px] w-2/3 max-w-fit flex-none md:w-1/3"
           >
             <Link
