@@ -7,14 +7,16 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function ShopifyProductCard({ className = '', genderFilter }) {
-  const { sidebarCategorieFilter } = useFilterContext();
-
-  /*  HOOKS  */
+  const pathname = usePathname();
+  const { sidebarCategorieFilter, mainCategorieFilter } = useFilterContext();
   const { products, isLoading, isError } = useProducts();
   const [productImages, setProductImages] = useState({});
   const router = useRouter();
 
-  /*  LOADING & ERROR STATES  */
+  const activeCategoryFilter = pathname.startsWith('/all-products')
+    ? sidebarCategorieFilter
+    : mainCategorieFilter;
+
   if (isLoading)
     return <div className="p-4 text-center">Cargando productos...</div>;
 
@@ -25,7 +27,6 @@ export default function ShopifyProductCard({ className = '', genderFilter }) {
       </div>
     );
 
-  /*  PRODUCT FILTERING  */
   let filteredProducts = [...products];
 
   if (genderFilter) {
@@ -40,22 +41,21 @@ export default function ShopifyProductCard({ className = '', genderFilter }) {
     );
   }
 
-  if (sidebarCategorieFilter) {
+  if (activeCategoryFilter) {
     filteredProducts = filteredProducts.filter((product) =>
       product.tags.some(
-        (tag) => tag.toLowerCase() === sidebarCategorieFilter.toLowerCase()
+        (tag) => tag.toLowerCase() === activeCategoryFilter.toLowerCase()
       )
     );
   }
 
-  /*  EVENT HANDLERS  */
   const handleColorClick = (productId, product, color) => {
     const variant = product.variants.edges.find((variant) =>
       variant.node.selectedOptions.some(
         (opt) => opt.name.toLowerCase() === 'color' && opt.value === color
       )
     );
-    if (variant && variant.node.image?.url) {
+    if (variant?.node.image?.url) {
       setProductImages((prev) => ({
         ...prev,
         [productId]: variant.node.image.url,
@@ -63,7 +63,12 @@ export default function ShopifyProductCard({ className = '', genderFilter }) {
     }
   };
 
-  const pathname = usePathname();
+  const isValidCSSColor = (color) => {
+    const s = new Option().style;
+    s.color = '';
+    s.color = color;
+    return s.color !== '';
+  };
 
   return (
     <div
@@ -82,7 +87,7 @@ export default function ShopifyProductCard({ className = '', genderFilter }) {
               : 'w-full'
           }`}
         >
-          {/*  PRODUCT IMAGE SECTION  */}
+          {/* IMAGE */}
           <div className="relative aspect-square w-full overflow-hidden">
             <Image
               placeholder="blur"
@@ -100,21 +105,19 @@ export default function ShopifyProductCard({ className = '', genderFilter }) {
               sizes="(max-width: 768px) 100vw, 500px"
               onClick={() => router.push(`/product-open/${product.handle}`)}
             />
-
-            {/* Quick View Button Overlay */}
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:p-4">
               <button
                 onClick={() => router.push(`/product-open/${product.handle}`)}
                 className="focus-ring hidden w-full cursor-pointer rounded bg-white px-4 py-2 font-semibold text-gray-900 transition-colors duration-200 hover:bg-gray-300 md:block"
               >
-                Vista Rapida
+                Vista Rápida
               </button>
             </div>
           </div>
 
-          {/*  PRODUCT DETAILS SECTION  */}
+          {/* DETAILS */}
           <div className="flex flex-col gap-1 p-3 md:p-4">
-            {/*  COLOR SELECTOR  */}
+            {/* COLOR SELECTOR */}
             {product.options?.find((o) => o.name.toLowerCase() === 'color') && (
               <div className="mt-2 flex gap-1">
                 {product.options
@@ -126,35 +129,31 @@ export default function ShopifyProductCard({ className = '', genderFilter }) {
                         handleColorClick(product.id, product, color)
                       }
                       className="h-5 w-5 cursor-pointer rounded-full border border-gray-600 transition-colors hover:border-gray-400"
-                      style={{ backgroundColor: color.toLowerCase() }}
+                      style={{
+                        backgroundColor: isValidCSSColor(color)
+                          ? color.toLowerCase()
+                          : `#${color}`,
+                      }}
                       title={color}
                     />
                   ))}
               </div>
             )}
 
-            {/*  PRODUCT TEXT CONTENT  */}
-            <div>
-              {/* Product Title */}
-              <h2 className="font-montserrat text-lg font-semibold text-white group-hover:text-gray-300 md:mb-1">
-                {product.title}
-              </h2>
+            <h2 className="font-montserrat text-lg font-semibold text-white group-hover:text-gray-300 md:mb-1">
+              {product.title}
+            </h2>
 
-              {/* Product Description */}
-              <p className="font-inter mb-2 hidden max-h-20 overflow-y-auto text-sm text-gray-400 md:block">
-                {product.description}
-              </p>
-            </div>
+            <p className="font-inter mb-2 hidden max-h-20 overflow-y-auto text-sm text-gray-400 md:block">
+              {product.description}
+            </p>
 
-            {/*  PRICING SECTION  */}
             <div className="md:flex md:gap-2">
-              {/* Current Price */}
               <p className="text-sm font-bold text-white md:text-lg">
                 ${product.variants.edges[0].node.price.amount}{' '}
                 {product.variants.edges[0].node.price.currencyCode}
               </p>
 
-              {/* Compare At Price (Discounted) */}
               {product.compareAtPriceRange?.maxVariantPrice?.amount && (
                 <p className="text-xs text-gray-500 line-through md:text-sm">
                   ${product.compareAtPriceRange.maxVariantPrice.amount}{' '}
@@ -163,15 +162,12 @@ export default function ShopifyProductCard({ className = '', genderFilter }) {
               )}
             </div>
 
-            {/*  ADDITIONAL PRODUCT INFO  */}
-            {/* Vendor Information */}
             {product.vendor && (
               <p className="mt-1 hidden text-xs text-gray-500 md:block">
                 Vendedor: {product.vendor}
               </p>
             )}
 
-            {/* Category Information */}
             {product.category?.name && (
               <p className="text-xs text-gray-500">
                 Categoría:{' '}
@@ -188,7 +184,7 @@ export default function ShopifyProductCard({ className = '', genderFilter }) {
               </p>
             )}
 
-            {/*  SIZE SELECTOR  */}
+            {/* SIZE SELECTOR */}
             {product.options?.find((o) => o.name.toLowerCase() === 'talla') && (
               <div className="mt-2 hidden flex-wrap justify-start gap-1 md:block">
                 {product.options
